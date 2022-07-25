@@ -6,3 +6,11 @@
 .content img {
     width: 1200px;
 }
+
+.item {
+    color: greenyellow;
+}
+
+.item.active {
+    color: darkviolet;
+}
