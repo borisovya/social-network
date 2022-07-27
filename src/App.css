@@ -6,9 +6,16 @@
     grid-template-areas:
     "hea hea"
     "nav con";
-    grid-template-rows: 60px 1fr;
+    grid-template-rows: 70px 1fr;
     grid-template-columns: 2fr 10fr;
     /*grid-gap: 10px;*/
 
+}
+
+
+.app-wrapper-content {
+    grid-area: con;
+    background-color: darkgrey;
+    border-radius: 10px;
 }
 

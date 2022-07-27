@@ -1,0 +1,18 @@
+
+.headImg {
+    width: 1200px;
+    border-radius: 10px;
+    height: 200px;
+}
+
+.item {
+    color: greenyellow;
+}
+
+.item.active {
+    color: darkviolet;
+}
+
+.descriptionBlock {
+    padding: 10px;
+}
