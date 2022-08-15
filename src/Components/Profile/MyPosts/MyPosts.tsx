@@ -15,7 +15,7 @@ const MyPosts = (props:MyPostsComponentType) => {
 
     let [postTitle, setPostTitle]=useState<string>('')
 
-    let onChangeHandler=(e: ChangeEvent<HTMLTextAreaElement>) => {
+    let onChangePostHandler=(e: ChangeEvent<HTMLTextAreaElement>) => {
         setPostTitle(e.currentTarget.value)
     }
 
@@ -29,7 +29,7 @@ const MyPosts = (props:MyPostsComponentType) => {
         <h3>My posts:</h3>
         <div>
             <div>
-                <textarea value={postTitle} onChange={ onChangeHandler }></textarea>
+                <textarea value={postTitle} onChange={ onChangePostHandler } />
             </div>
             <div>
                 <button onClick={ addPostHandler }>Add post</button>
