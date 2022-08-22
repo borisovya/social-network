@@ -43,7 +43,14 @@ export type StoreType = {
     getState: () => void
     addPost: (postMessage: string)=>void
     subscribe: (callback: ()=> void)=>void
+    dispatch: (action: AddPostActionType) => void
 }
+
+export type AddPostActionType = {
+    type: 'ADD-POST'
+    postMessage: string
+}
+
 
 let store = {
     _state: {
@@ -75,19 +82,21 @@ let store = {
     getState () {
         return this._state
     },
-    _callSubscriber () {
-        console.log('State changed')},
-    addPost (postMessage: string) {
-        let newPost ={
-            id: 5,
-            message: postMessage,
-            likesCount: 0,
-        };
-        this._state.profilePage.posts.push(newPost)
-        this._callSubscriber()
-    },
     subscribe (callback: any) {
         this._callSubscriber = callback;
+    },
+    _callSubscriber () {
+        console.log('State changed')},
+    dispatch(action: AddPostActionType) {
+        if (action.type==='ADD-POST') {
+            let newPost ={
+                id: 5,
+                message: action.postMessage,
+                likesCount: 0,
+            };
+            this._state.profilePage.posts.push(newPost)
+            this._callSubscriber()
+        }
     }
 }
 
