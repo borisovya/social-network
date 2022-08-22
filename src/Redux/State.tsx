@@ -38,8 +38,15 @@ export type RootStateType = {
 }
 
 
+export type StoreType = {
+    _state: RootStateType
+    getState: () => void
+    addPost: (postMessage: string)=>void
+    subscribe: (callback: ()=> void)=>void
+}
 
-let state: RootStateType = {
+let store = {
+    _state: {
     profilePage: {
         posts: [
             {id: 1, message: 'Hi how are you?', likesCount: 23},
@@ -47,8 +54,6 @@ let state: RootStateType = {
             {id: 3, message: 'Abrakadabra?', likesCount: 112},
             {id: 4, message: 'HAHAHAH!!', likesCount: 42},
         ],
-
-
     },
     dialogsPage: {
         messages: [
@@ -66,26 +71,25 @@ let state: RootStateType = {
         ],
     },
     sidebar: {},
-}
-
-export let addPost = (postMessage: string) => {
-    let newPost ={
-        id: 5,
-        message: postMessage,
-        likesCount: 0,
+},
+    getState () {
+        return this._state
+    },
+    _callSubscriber () {
+        console.log('State changed')},
+    addPost (postMessage: string) {
+        let newPost ={
+            id: 5,
+            message: postMessage,
+            likesCount: 0,
+        };
+        this._state.profilePage.posts.push(newPost)
+        this._callSubscriber()
+    },
+    subscribe (callback: any) {
+        this._callSubscriber = callback;
     }
-
-    state.profilePage.posts.push(newPost)
-    rerenderEntireTree(state)
 }
 
 
-
-export const subscribe=(observer: (state: RootStateType)=>void )=> {
-    rerenderEntireTree = observer
-}
-
-
-
-
-export default state
+export default store
