@@ -4,6 +4,7 @@ import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./Profileinfo/Profileinfo";
 import {AddPostActionType, ProfilePage} from "../../Redux/State";
 
+
 type ProfileComponentType = {
     state: ProfilePage
     dispatch: (action: AddPostActionType)=>void

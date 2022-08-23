@@ -23,7 +23,7 @@ export const Dialogs = (props:DialogsComponentType) => {
 
     let onChangeMessage = (e:ChangeEvent<HTMLTextAreaElement>) => {
         let newMessageValue = e.currentTarget.value
-       props.dispatch(UpdateMessageBodyActionCreator(newMessageValue))
+       props.dispatch((UpdateMessageBodyActionCreator(newMessageValue)))
     }
     let onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
         props.dispatch(SendMessageBodyActionCreator())

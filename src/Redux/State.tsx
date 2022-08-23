@@ -62,11 +62,6 @@ export type SendNewMessageType = {
     type: 'ADD-NEW-MESSAGE'
 }
 
-
-const ADD_POST = 'ADD-POST'
-const UPDATE_DIALOG_NEW_MESSAGE = 'UPDATE-DIALOG-NEW-MESSAGE'
-const ADD_NEW_MESSAGE = 'ADD-NEW-MESSAGE'
-
 let store = {
     _state: {
         profilePage: {
@@ -106,7 +101,7 @@ let store = {
         this._callSubscriber = callback;
     },
 
-    dispatch(action: AddPostActionType | UpdateDialogNewMessage | SendNewMessageType) {
+    dispatch(action: any) {
 
         this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
