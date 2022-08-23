@@ -1,3 +1,7 @@
+import {profileReducer} from "./profile-reducer";
+import {dialogsReducer} from "./dialogs-reducer";
+import {sideBarReducer} from "./sidebar-reducer";
+
 let _callSubscriber = (state: RootStateType) => {
 
 }
@@ -103,35 +107,14 @@ let store = {
     },
 
     dispatch(action: AddPostActionType | UpdateDialogNewMessage | SendNewMessageType) {
-        if (action.type === ADD_POST) {
-            let newPost = {
-                id: 5,
-                message: action.postMessage,
-                likesCount: 0,
-            };
-            this._state.profilePage.posts.push(newPost)
-            this._callSubscriber()
-        } else if (action.type===UPDATE_DIALOG_NEW_MESSAGE){
-            this._state.dialogsPage.newMessage = action.newMessageBody
-            this._callSubscriber()
-        } else if (action.type === ADD_NEW_MESSAGE) {
-            let newMessageBody = this._state.dialogsPage.newMessage
-            this._state.dialogsPage.newMessage=''
-            this._state.dialogsPage.messages.push({id:4, message: newMessageBody})
-            this._callSubscriber()
-        }
+
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._state.sidebar = sideBarReducer(this._state.sidebar, action)
+
+        this._callSubscriber()
+
     }
-}
-
-export const addPostActionCreator = (postTitle: string): AddPostActionType => {
-    return ({type: 'ADD-POST', postMessage: postTitle})
-}
-
-export const UpdateMessageBodyActionCreator = (newMessageBody:string):UpdateDialogNewMessage => {
-    return ({type: 'UPDATE-DIALOG-NEW-MESSAGE', newMessageBody: newMessageBody})
-}
-export const SendMessageBodyActionCreator = ():SendNewMessageType => {
-    return ({type: 'ADD-NEW-MESSAGE'})
 }
 
 export default store

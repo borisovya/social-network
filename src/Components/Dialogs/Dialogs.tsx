@@ -2,13 +2,13 @@ import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {
-    AddPostActionType,
-    DialogPage, SendMessageBodyActionCreator,
+    DialogPage,
     SendNewMessageType,
     UpdateDialogNewMessage,
-    UpdateMessageBodyActionCreator
+
 } from "../../Redux/State";
 import {ChangeEvent, MouseEvent} from "react";
+import {SendMessageBodyActionCreator, UpdateMessageBodyActionCreator} from "../../Redux/dialogs-reducer";
 
 type DialogsComponentType = {
     state: DialogPage
@@ -23,10 +23,10 @@ export const Dialogs = (props:DialogsComponentType) => {
 
     let onChangeMessage = (e:ChangeEvent<HTMLTextAreaElement>) => {
         let newMessageValue = e.currentTarget.value
-       props.dispatch({type:'UPDATE-DIALOG-NEW-MESSAGE', newMessageBody: newMessageValue})
+       props.dispatch(UpdateMessageBodyActionCreator(newMessageValue))
     }
     let onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        props.dispatch({type:'ADD-NEW-MESSAGE'})
+        props.dispatch(SendMessageBodyActionCreator())
     }
 
     return (
