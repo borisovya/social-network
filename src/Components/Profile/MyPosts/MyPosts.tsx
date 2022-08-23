@@ -1,12 +1,14 @@
 import React, {ChangeEvent,MouseEvent, useState} from "react";
 import s from './MyPosts.module.css'
 import Post from "./Post/Post";
-import {AddPostActionType, PostsType} from "../../../Redux/State";
+import {addPostActionCreator, AddPostActionType, PostsType} from "../../../Redux/State";
 
 type MyPostsComponentType = {
     posts: Array<PostsType>
-    dispatch: (action: AddPostActionType)=>void
+    dispatch: (action: AddPostActionType) => void
 }
+
+
 
 const MyPosts = (props:MyPostsComponentType) => {
 
@@ -20,7 +22,7 @@ const MyPosts = (props:MyPostsComponentType) => {
     }
 
     let addPostHandler =(e: MouseEvent<HTMLButtonElement>)=>{
-        postTitle && props.dispatch({type: 'ADD-POST', postMessage: postTitle})
+        postTitle && props.dispatch(addPostActionCreator(postTitle))
         setPostTitle('')
     }
 

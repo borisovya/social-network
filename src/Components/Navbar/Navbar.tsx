@@ -1,6 +1,5 @@
 import React from "react";
 import s from './Navbar.module.css'
-import profile from "../Profile/Profile";
 import {NavLink} from "react-router-dom";
 
 

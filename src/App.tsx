@@ -8,15 +8,15 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./Components/News/News";
 import {Music} from "./Components/Music/Music";
 import {Settings} from "./Components/Settings/Settings";
-import state, {AddPostActionType, RootStateType, StoreType,} from "./Redux/State";
-import store from "./Redux/State";
+import {AddPostActionType, RootStateType, SendNewMessageType, UpdateDialogNewMessage,} from "./Redux/State";
+
 
 
 let SettingsComponent = () => <Settings/>
 
 type AppType = {
     state: RootStateType
-    dispatch: (action: AddPostActionType)=>void
+    dispatch: (action: AddPostActionType | UpdateDialogNewMessage | SendNewMessageType)=>void
 }
 
 function App(props: AppType) {
@@ -31,7 +31,7 @@ function App(props: AppType) {
                         state={props.state.profilePage}
                         dispatch={props.dispatch}
                     />} />
-                    <Route path='/dialogs' render={() => <Dialogs state={props.state.dialogsPage} />}/>
+                    <Route path='/dialogs' render={() => <Dialogs state={props.state.dialogsPage} dispatch = {props.dispatch}/>}/>
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/music' render={() => <Music/>}/>
                     <Route path='/settings' component={SettingsComponent}/>
