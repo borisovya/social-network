@@ -8,15 +8,17 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./Components/News/News";
 import {Music} from "./Components/Music/Music";
 import {Settings} from "./Components/Settings/Settings";
-import {AddPostActionType, RootStateType, SendNewMessageType, UpdateDialogNewMessage,} from "./Redux/State";
+import {AnyAction, Dispatch, Store} from "redux";
+import {RootStoreType} from "./Redux/redux-store";
+import {DialogsContainer} from "./Components/Dialogs/DialogsContainer";
 
 
 
 let SettingsComponent = () => <Settings/>
 
 type AppType = {
-    state: RootStateType
-    dispatch: (action: AddPostActionType | UpdateDialogNewMessage | SendNewMessageType)=>void
+    state:  Store<RootStoreType, AnyAction>
+
 }
 
 function App(props: AppType) {
@@ -28,10 +30,13 @@ function App(props: AppType) {
                 <Navbar/>
                 <div className={'app-wrapper-content'}>
                     <Route path='/profile' render={() => <Profile
-                        state={props.state.profilePage}
-                        dispatch={props.dispatch}
+                        profilePage={props.state.getState().profilePage}
+                        dispatch = {props.state.dispatch}
                     />} />
-                    <Route path='/dialogs' render={() => <Dialogs state={props.state.dialogsPage} dispatch = {props.dispatch}/>}/>
+                    <Route path='/dialogs' render={() => <DialogsContainer
+                        state={props.state.getState().dialogsPage}
+                        dispatch = {props.state.dispatch}
+                    />}/>
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/music' render={() => <Music/>}/>
                     <Route path='/settings' component={SettingsComponent}/>
