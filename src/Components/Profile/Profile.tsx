@@ -1,21 +1,14 @@
 import React from "react";
 import ProfileInfo from "./Profileinfo/Profileinfo";
-import MyPostsContainer from "./MyPosts/MyPostsContainer";
-import {AddPostActionType, ProfileReducerInitStateType} from "../../Redux/profile-reducer";
-import {AnyAction, Dispatch} from "redux";
+import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 
 
-
-type ProfileComponentType = {
-    profilePage: ProfileReducerInitStateType
-    dispatch: Dispatch<AnyAction>
-}
-
-const Profile = (props:ProfileComponentType ) => {
+const Profile = () => {
     return <div>
+
         <ProfileInfo />
 
-        <MyPostsContainer posts={props.profilePage.posts} dispatch={props.dispatch}/>
+        <MyPostsContainer />
 
     </div>
 }

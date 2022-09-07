@@ -2,19 +2,15 @@ import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {ChangeEvent, MouseEvent} from "react";
-import {DialogPage} from "../../Redux/dialogs-reducer";
+import {dialogsType} from "./DialogsContainer";
 
-type DialogsComponentType = {
-    state: DialogPage
-    onChangeMessage: (newMessageValue: string) => void
-    sendMessage: () => void
-}
 
-export const Dialogs = (props: DialogsComponentType) => {
 
-    let dialogsElements = props.state.dialogs.map((d: any) => <DialogItem name={d.name} id={d.id}/>)
-    let messagesElements = props.state.messages.map((m: any) => <Message message={m.message} id={m.id}/>)
-    let newMessageBody = props.state.newMessage
+export const Dialogs = (props: dialogsType) => {
+
+    let dialogsElements = props.dialogsPage.dialogs.map((d: any) => <DialogItem name={d.name} id={d.id}/>)
+    let messagesElements = props.dialogsPage.messages.map((m: any) => <Message message={m.message} id={m.id}/>)
+    let newMessageBody = props.dialogsPage.newMessage
 
     let onChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let newMessageValue = e.currentTarget.value

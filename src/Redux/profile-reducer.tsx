@@ -5,19 +5,17 @@ export type PostsType = {
     likesCount: number
 }
 
-export type ProfileReducerInitStateType = {
-    posts: Array<PostsType>
-}
+export type ProfileReducerInitStateType = typeof initialState
 
 const ADD_POST = 'ADD-POST'
 
-let initialState: ProfileReducerInitStateType = {
+let initialState = {
     posts: [
         {id: 1, message: 'Hi how are you?', likesCount: 23},
         {id: 2, message: 'Is this my post?', likesCount: 12},
         {id: 3, message: 'Abrakadabra?', likesCount: 112},
         {id: 4, message: 'HAHAHAH!!', likesCount: 42},
-    ],
+    ] as Array<PostsType>,
 }
 
 export const profileReducer = (state: ProfileReducerInitStateType = initialState, action: AddPostActionType): ProfileReducerInitStateType => {

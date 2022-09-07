@@ -2,18 +2,11 @@ import React, {ChangeEvent,MouseEvent, useState} from "react";
 import s from './MyPosts.module.css'
 import Post from "./Post/Post";
 import {PostsType} from "../../../Redux/profile-reducer";
+import {MyPostsType} from "./MyPostsContainer";
 
 
 
-
-type MyPostsComponentType = {
-    posts: Array<PostsType>
-    addPost: (postTitle: string) => void
-}
-
-
-
-const MyPosts = (props:MyPostsComponentType) => {
+const MyPosts = (props: MyPostsType) => {
 
     let postsElement = props.posts.map((p:PostsType) => <Post id={p.id}message={p.message} likesCount={p.likesCount}/>)
 
