@@ -16,7 +16,9 @@ type mapDispatchToPropsType = {
 export type MyPostsType = mapStateToPropsType & mapDispatchToPropsType
 
 const mapStateToProps = (state: RootStateType): mapStateToPropsType => {
-    return {posts: state.profilePage.posts}
+    return {
+        posts: state.profilePage.posts
+    }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): mapDispatchToPropsType => {

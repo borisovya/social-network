@@ -27,8 +27,8 @@ export const profileReducer = (state: ProfileReducerInitStateType = initialState
                 message: action.postMessage,
                 likesCount: 0,
             };
-            state.posts.push(newPost)
-            return state
+            // state.posts.push(newPost)
+            return {...state, posts: [...state.posts, newPost]}
         default:
             return state
     }

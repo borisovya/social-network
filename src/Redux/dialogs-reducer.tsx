@@ -40,13 +40,13 @@ export const dialogsReducer = (state: DialogPage = initialState, action: Dialogs
 
     switch (action.type) {
         case UPDATE_DIALOG_NEW_MESSAGE:
-            state.newMessage = action.newMessageBody
-            return state
+            // state.newMessage = action.newMessageBody
+            return {...state, newMessage: action.newMessageBody}
         case ADD_NEW_MESSAGE:
             let newMessageBody = state.newMessage
             state.newMessage = ''
-            state.messages.push({id: 4, message: newMessageBody})
-            return state
+            // state.messages.push({id: 4, message: newMessageBody})
+            return {...state, messages: [...state.messages, {id: 4, message: newMessageBody}]}
         default:
             return state
     }
