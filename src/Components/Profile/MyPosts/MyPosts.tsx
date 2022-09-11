@@ -8,7 +8,7 @@ import {MyPostsType} from "./MyPostsContainer";
 
 const MyPosts = (props: MyPostsType) => {
 
-    let postsElement = props.posts.map((p:PostsType) => <Post id={p.id}message={p.message} likesCount={p.likesCount}/>)
+    let postsElement = props.posts.map((p:PostsType) => <Post key={p.id} id={p.id}message={p.message} likesCount={p.likesCount}/>)
 
 
     let [postTitle, setPostTitle]=useState<string>('')

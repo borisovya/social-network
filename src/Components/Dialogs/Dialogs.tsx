@@ -3,13 +3,14 @@ import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {ChangeEvent, MouseEvent} from "react";
 import {dialogsType} from "./DialogsContainer";
+import {DialogsType, MessageType} from "../../Redux/dialogs-reducer";
 
 
 
 export const Dialogs = (props: dialogsType) => {
 
-    let dialogsElements = props.dialogsPage.dialogs.map((d: any) => <DialogItem name={d.name} id={d.id}/>)
-    let messagesElements = props.dialogsPage.messages.map((m: any) => <Message message={m.message} id={m.id}/>)
+    let dialogsElements = props.dialogsPage.dialogs.map((d: DialogsType) => <DialogItem key={d.id} name={d.name} id={d.id}/>)
+    let messagesElements = props.dialogsPage.messages.map((m: MessageType) => <Message key={m.id} message={m.message} id={m.id}/>)
     let newMessageBody = props.dialogsPage.newMessage
 
     let onChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {

@@ -1,6 +1,7 @@
+import {v1} from "uuid";
 
 export type PostsType = {
-    id: number
+    id: string
     message: string
     likesCount: number
 }
@@ -11,10 +12,10 @@ const ADD_POST = 'ADD-POST'
 
 let initialState = {
     posts: [
-        {id: 1, message: 'Hi how are you?', likesCount: 23},
-        {id: 2, message: 'Is this my post?', likesCount: 12},
-        {id: 3, message: 'Abrakadabra?', likesCount: 112},
-        {id: 4, message: 'HAHAHAH!!', likesCount: 42},
+        {id: v1(), message: 'Hi how are you?', likesCount: 23},
+        {id: v1(), message: 'Is this my post?', likesCount: 12},
+        {id: v1(), message: 'Abrakadabra?', likesCount: 112},
+        {id: v1(), message: 'HAHAHAH!!', likesCount: 42},
     ] as Array<PostsType>,
 }
 
@@ -23,11 +24,11 @@ export const profileReducer = (state: ProfileReducerInitStateType = initialState
     switch (action.type) {
         case ADD_POST:
             let newPost = {
-                id: 5,
+                id: v1(),
                 message: action.postMessage,
                 likesCount: 0,
             };
-            // state.posts.push(newPost)
+
             return {...state, posts: [...state.posts, newPost]}
         default:
             return state

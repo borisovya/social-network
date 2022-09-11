@@ -1,10 +1,12 @@
+import { v1 } from "uuid"
+
 export type MessageType = {
-    id: number
+    id: string
     message: string
 }
 
 export type DialogsType = {
-    id: number
+    id: string
     name: string
 }
 
@@ -19,17 +21,17 @@ const ADD_NEW_MESSAGE = 'ADD-NEW-MESSAGE'
 
 let initialState = {
     messages: [
-        {id: 1, message: 'Hi'},
-        {id: 2, message: 'What is going on?'},
-        {id: 3, message: 'Yo!!!'},
+        {id: v1(), message: 'Hi'},
+        {id: v1(), message: 'What is going on?'},
+        {id: v1(), message: 'Yo!!!'},
     ],
     dialogs: [
-        {id: 1, name: 'Vladimir'},
-        {id: 2, name: 'Dmitrii'},
-        {id: 3, name: 'Anastasia'},
-        {id: 4, name: 'Alex'},
-        {id: 5, name: 'Nick'},
-        {id: 6, name: 'Mary'}
+        {id: v1(), name: 'Vladimir'},
+        {id: v1(), name: 'Dmitrii'},
+        {id: v1(), name: 'Anastasia'},
+        {id: v1(), name: 'Alex'},
+        {id: v1(), name: 'Nick'},
+        {id: v1(), name: 'Mary'}
     ],
     newMessage: '',
 }
@@ -40,13 +42,12 @@ export const dialogsReducer = (state: DialogPage = initialState, action: Dialogs
 
     switch (action.type) {
         case UPDATE_DIALOG_NEW_MESSAGE:
-            // state.newMessage = action.newMessageBody
             return {...state, newMessage: action.newMessageBody}
+
         case ADD_NEW_MESSAGE:
             let newMessageBody = state.newMessage
-            state.newMessage = ''
-            // state.messages.push({id: 4, message: newMessageBody})
-            return {...state, messages: [...state.messages, {id: 4, message: newMessageBody}]}
+            return {...state, newMessage: '', messages: [...state.messages, {id: v1(), message: newMessageBody}]}
+
         default:
             return state
     }
