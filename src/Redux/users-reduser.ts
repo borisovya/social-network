@@ -11,23 +11,22 @@ export type LocationType = {
 
 export type UsersType = {
     id: string
-    fullName: string
+    name: string
     status: string
     location: LocationType
     followed: boolean
-    profilePhotoUrl: string
+    photos: PhotoType
 }
 
+type PhotoType = {
+    small: string | null
+    large: string | null
+}
 // export type ProfileReducerInitStateType = typeof initialState
 
 
 let initialState = {
-    users: [
-        // {id: v1(), profilePhotoUrl:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZMWfuXqA8b5n_7M9AmclNpDj9j8a-f_q7gw&usqp=CAU', followed: true, fullName: 'Dmitry K', status: 'Big Boss', location: {city: 'Minsk', country: 'Belarus'}},
-        // {id: v1(), profilePhotoUrl:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZMWfuXqA8b5n_7M9AmclNpDj9j8a-f_q7gw&usqp=CAU', followed: false, fullName: 'Vladimir B', status: 'Engineer', location: {city: 'Moscow', country: 'Russia'}},
-        // {id: v1(), profilePhotoUrl:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6c4-LUiQp5XFO8jNaR4qMcezpWSsfXbX7zg&usqp=CAU', followed: false, fullName: 'Anastasia Z', status: 'Affiliate', location: {city: 'Moscow', country: 'Russia'}},
-        // {id: v1(), profilePhotoUrl:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZMWfuXqA8b5n_7M9AmclNpDj9j8a-f_q7gw&usqp=CAU', followed: false, fullName: 'Dmitriy A', status: 'Prosto-okna-potolki', location: {city: 'Stepankovo', country: 'Russia'}}
-    ] as Array<UsersType>,
+    users: [] ,
 }
 
 type UsersReducerType = followACType | unFollowACType | setUsersACType
