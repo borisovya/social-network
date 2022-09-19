@@ -1,5 +1,5 @@
 .app-wrapper {
-    margin: auto;
+    margin: 0 auto;
 
     display: grid;
     width: 1200px;
@@ -17,5 +17,6 @@
     grid-area: con;
     background-color: darkgrey;
     border-radius: 10px;
+
 }
 

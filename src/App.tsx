@@ -11,6 +11,9 @@ import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 import UsersContainer from "./Components/Users/UsersContainer";
 
 
+
+
+
 let SettingsComponent = () => <Settings/>
 
 
@@ -27,7 +30,7 @@ function App() {
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/music' render={() => <Music/>}/>
                     <Route path='/settings' component={SettingsComponent}/>
-                    <Route path='/users' component={() => <UsersContainer/>}/>
+                    <Route path='/users' component={() => <UsersContainer />}/>
                 </div>
             </div>
         </BrowserRouter>
