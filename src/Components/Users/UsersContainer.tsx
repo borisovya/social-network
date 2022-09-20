@@ -8,7 +8,6 @@ import {
     UsersType
 } from "../../Redux/users-reduser";
 import {RootStateType} from "../../Redux/redux-store";
-import {AnyAction, Dispatch} from "redux";
 import axios from "axios";
 import Users from "./Users";
 import Preloader from "../Common/Preloader";

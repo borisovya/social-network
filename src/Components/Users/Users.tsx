@@ -2,6 +2,7 @@ import React from 'react'
 import s from "./UsersStyle.module.css";
 import userDefaultPhoto from "../../asseds/imgs/profileDefaultPic.png";
 import {UsersType} from "../../Redux/users-reduser";
+import {NavLink} from "react-router-dom";
 
 
 type propsType = {
@@ -10,14 +11,14 @@ type propsType = {
     currentPage: number
     onPageChange: (pageNumber: number) => void
     users: Array<UsersType>
-    follow: (userId: string)=> void
-    unFollow: (userId: string)=> void
+    follow: (userId: string) => void
+    unFollow: (userId: string) => void
 }
 
 const Users = (props: propsType) => {
 
     let pagesCount: number = Math.ceil(props.totalUsersCount / props.pageSize)
-    
+
     let pages: Array<number> = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
@@ -31,17 +32,19 @@ const Users = (props: propsType) => {
                 }} className={props.currentPage === p ? s.selectedPage : ''}>{p}</span>
             })}
         </div>
-        { props.users.map(u => <div key={u.id}>
+        {props.users.map(u => <div key={u.id}>
             <span>
                 <div>
-                    <img src={u.photos.small != null ? u.photos.small : userDefaultPhoto} className={s.photo}/>
+                    <NavLink to={'/profile/' + u.id}>
+                        <img src={u.photos.small != null ? u.photos.small : userDefaultPhoto} className={s.photo}/>
+                     </NavLink>
                 </div>
                 <div>
                     {u.followed ? <button onClick={() => props.unFollow(u.id)}>Unfollow</button> :
                         <button onClick={() => props.follow(u.id)}>Follow</button>}
                 </div>
             </span>
-                <span>
+            <span>
                     <span>
                         <div>{u.name}</div>
                         <div>{u.status}</div>
@@ -51,7 +54,7 @@ const Users = (props: propsType) => {
                         <div>{"u.location.city"}</div>
                     </span>
                 </span>
-            </div>)}
+        </div>)}
     </div>
 }
 

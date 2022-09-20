@@ -6,9 +6,38 @@ export type PostsType = {
     likesCount: number
 }
 
-export type ProfileReducerInitStateType = typeof initialState
+export type ProfileReducerInitStateType ={
+    posts: Array<PostsType>,
+    profile: ProfileType | null
+}
 
-const ADD_POST = 'ADD-POST'
+export type ContactsType = {
+    facebook: string | null,
+    website:  string | null,
+    vk: string | null,
+    twitter: string |null,
+    instagram: string | null,
+    youtube:  string | null,
+    github: string | null,
+    mainLink:  string | null
+}
+
+export type PhotoProfileType = {
+    small: string | null,
+    large: string | null
+}
+
+export type ProfileType = {
+    aboutMe: string,
+    contacts: ContactsType,
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string,
+    fullName: string,
+    userId: number,
+    photos: PhotoProfileType
+
+}
+
 
 let initialState = {
     posts: [
@@ -16,31 +45,40 @@ let initialState = {
         {id: v1(), message: 'Is this my post?', likesCount: 12},
         {id: v1(), message: 'Abrakadabra?', likesCount: 112},
         {id: v1(), message: 'HAHAHAH!!', likesCount: 42},
-    ] as Array<PostsType>,
+    ],
+    profile:  null
 }
 
-export const profileReducer = (state: ProfileReducerInitStateType = initialState, action: AddPostActionType): ProfileReducerInitStateType => {
+export const profileReducer = (state: ProfileReducerInitStateType = initialState, action: ActionType) => {
 
     switch (action.type) {
-        case ADD_POST:
+        case 'ADD-POST':
             let newPost = {
                 id: v1(),
                 message: action.postMessage,
                 likesCount: 0,
             };
-
             return {...state, posts: [...state.posts, newPost]}
+
+        case 'SET-PROFILE':
+            return {...state, profile: action.profile}
+
         default:
             return state
     }
 }
 
-export const addPostActionCreator = (postTitle: string): AddPostActionType => {
-    return ({type: ADD_POST, postMessage: postTitle})
+
+type ActionType = AddPostActionType | SetProfileType
+
+export type AddPostActionType = ReturnType<typeof addPost>
+export const addPost = (postTitle: string) => {
+    return ({type: 'ADD-POST', postMessage: postTitle}) as const
 }
 
-export type AddPostActionType = {
-    type: 'ADD-POST'
-    postMessage: string
+type SetProfileType = ReturnType<typeof setProfile>
+export const setProfile = (profile: ProfileType) => {
+    return ({type: 'SET-PROFILE', profile}) as const
 }
+
 
