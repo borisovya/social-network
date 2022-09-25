@@ -10,3 +10,18 @@
     padding: 10px;
     border-radius: 20px;
 }
+
+.loginBlock {
+    float: right;
+    margin-top: 20px;
+    margin-right: 10px;
+
+}
+
+.loginBlock a {
+    color: greenyellow;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    margin-right: 10px;
+}
