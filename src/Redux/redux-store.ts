@@ -15,7 +15,7 @@ let rootReducer = combineReducers({
 
 export type RootStateType = ReturnType<typeof rootReducer>
 
-let store: Store<RootStateType, AnyAction> = createStore(rootReducer);
+let store = createStore(rootReducer);
 
 
 //@ts-ignore
