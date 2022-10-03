@@ -4,6 +4,7 @@ import {Message} from "./Message/Message";
 import {ChangeEvent, MouseEvent} from "react";
 import {dialogsType} from "./DialogsContainer";
 import {DialogsType, MessageType} from "../../Redux/dialogs-reducer";
+import {Redirect} from "react-router-dom";
 
 
 
@@ -20,6 +21,8 @@ export const Dialogs = (props: dialogsType) => {
     let onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
         props.sendMessage()
     }
+
+    if (props.isAuth === false) return <Redirect to={'/login'} />
 
     return (
         <div className={s.dialogs}>

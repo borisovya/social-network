@@ -1,3 +1,8 @@
+import {UsersAPI} from "../API/API";
+
+import {AnyAction, Dispatch} from "redux";
+
+
 
 
 export type UserPageType = {
@@ -92,6 +97,52 @@ export const toggleIsFetching = (isFetching: boolean)=> {
 export const toggleFollowingInProgress = (toggleFetching: boolean, userId: number)=> {
     return ({type: 'TOGGLE-FOLLOWING-IN-PROGRESS', toggleFetching, userId}) as const
 }
+
+
+
+export const getUsers = (currentPage: number, pageSize: number) => {
+
+    return (dispatch: any) => {
+        dispatch(toggleIsFetching(true))
+        UsersAPI.getUsers(currentPage, pageSize)
+            .then(data => {
+                dispatch(toggleIsFetching(false))
+                dispatch(setUsers(data.items))
+                dispatch(setTotalUsersCount(data.totalCount))
+            });
+    }
+}
+
+
+export const following = (userId: number) => {
+
+    return (dispatch: any) => {
+        dispatch(toggleFollowingInProgress(true, userId))
+        UsersAPI.followUser(userId)
+            .then(data => {
+                if (data.resultCode == 0) {
+                    dispatch(follow(userId))
+                }
+                dispatch(toggleFollowingInProgress(false, userId))
+            })
+    }
+}
+
+
+export const unFollowing = (userId: number) => {
+
+    return (dispatch: any) =>  {
+        dispatch(toggleFollowingInProgress(true, userId))
+        UsersAPI.unFollowUser(userId)
+            .then(data => {
+                if (data.resultCode == 0) {
+                    dispatch(unFollow(userId))
+                }
+                dispatch(toggleFollowingInProgress(false, userId))
+            })
+    }
+}
+
 
 export type followACType = ReturnType<typeof follow>
 export type unFollowACType = ReturnType<typeof unFollow>

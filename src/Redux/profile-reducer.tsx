@@ -1,4 +1,8 @@
 import {v1} from "uuid";
+import {UsersAPI} from "../API/API";
+import {ThunkDispatch} from "redux-thunk";
+import {Action, Dispatch} from "redux";
+import {mapStatePropsType} from "../Components/Profile/ProfileContainer";
 
 export type PostsType = {
     id: string
@@ -77,8 +81,17 @@ export const addPost = (postTitle: string) => {
 }
 
 type SetProfileType = ReturnType<typeof setProfile>
-export const setProfile = (profile: ProfileType) => {
+const setProfile = (profile: ProfileType) => {
     return ({type: 'SET-PROFILE', profile}) as const
+}
+
+export const getProfile = (userId: number) =>{
+    return (dispatch: Dispatch) => {
+        UsersAPI.getProfile(+userId)
+            .then(response => {
+               dispatch(setProfile(response.data))
+        });
+    }
 }
 
 
