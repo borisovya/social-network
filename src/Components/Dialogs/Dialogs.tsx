@@ -7,11 +7,12 @@ import {DialogsType, MessageType} from "../../Redux/dialogs-reducer";
 import {Redirect} from "react-router-dom";
 
 
-
 export const Dialogs = (props: dialogsType) => {
 
-    let dialogsElements = props.dialogsPage.dialogs.map((d: DialogsType) => <DialogItem key={d.id} name={d.name} id={d.id}/>)
-    let messagesElements = props.dialogsPage.messages.map((m: MessageType) => <Message key={m.id} message={m.message} id={m.id}/>)
+    let dialogsElements = props.dialogsPage.dialogs.map((d: DialogsType) => <DialogItem key={d.id} name={d.name}
+                                                                                        id={d.id}/>)
+    let messagesElements = props.dialogsPage.messages.map((m: MessageType) => <Message key={m.id} message={m.message}
+                                                                                       id={m.id}/>)
     let newMessageBody = props.dialogsPage.newMessage
 
     let onChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {

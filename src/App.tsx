@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './App.css';
 import Navbar from "./Components/Navbar/Navbar";
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter, Redirect, Route} from "react-router-dom";
 import {News} from "./Components/News/News";
 import {Music} from "./Components/Music/Music";
 import {Settings} from "./Components/Settings/Settings";
@@ -10,8 +10,10 @@ import UsersContainer from "./Components/Users/UsersContainer";
 import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import Login from "./Components/Login/Login";
-import {getAuthUserData} from './Redux/auth-reduser';
-import {useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
+import {RootStateType} from "./Redux/redux-store";
+import Preloader from "./Components/Common/Preloader";
+
 
 
 let SettingsComponent = () => <Settings/>
@@ -19,20 +21,26 @@ let SettingsComponent = () => <Settings/>
 
 function App() {
 
+    let isAuth = useSelector<RootStateType, boolean>(state => state.auth.isAuth)
+
     return (
         <BrowserRouter>
             <div className='app-wrapper'>
                 <HeaderContainer/>
                 <Navbar/>
-                <div className={'app-wrapper-content'}>
-                    <Route path='/profile/:userId' render={() => <ProfileContainer/>}/>
+                {!isAuth
+                    ? <Preloader />
+                    : <div className={'app-wrapper-content'}>
+                    <Route exact path='/' component={() => <Redirect to={'/profile'}/>}/>
+                    <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
                     <Route path='/dialogs' render={() => <DialogsContainer/>}/>
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/music' render={() => <Music/>}/>
                     <Route path='/settings' component={SettingsComponent}/>
                     <Route path='/users' component={() => <UsersContainer/>}/>
                     <Route path='/login' component={() => <Login/>}/>
-                </div>
+                </div>}
+
             </div>
         </BrowserRouter>
     );

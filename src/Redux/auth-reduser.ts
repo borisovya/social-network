@@ -1,7 +1,6 @@
 import {AuthAPI} from "../API/API";
-import {Action, Dispatch} from "redux";
-import {ThunkDispatch} from "redux-thunk";
-import {mapStatePropsType} from "../Components/Profile/ProfileContainer";
+import { Dispatch} from "redux";
+
 
 export type DataType = {
     id: number | null
