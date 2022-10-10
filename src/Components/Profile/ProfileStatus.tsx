@@ -1,4 +1,5 @@
 import React from 'react';
+import {PropsProfileType} from "./ProfileContainer";
 
 // type PropsType = {
 //     status: string
@@ -7,43 +8,59 @@ import React from 'react';
 //     onChange: (newStatus: string)=>void
 // }
 
-class ProfileStatus extends React.Component {
+type ProfileStatusType = {
+    status: string
+    updateUserStatus: (status: string) => void
+}
+
+class ProfileStatus extends React.Component<ProfileStatusType> {
+
 
     state = {
         editMode: false,
-        status: 'Hello dude'
+        status: this.props.status
     }
 
-    activateEditMode() {
+    activateEditMode = () => {
         this.setState({
             editMode: true
         }) // setState асинхронный
     }
 
-    deactivate() {
+    deactivate = () => {
         this.setState({
             editMode: false
         })
+        this.props.updateUserStatus(this.state.status)
     }
 
-    onChange(newStatus: string) {
+    onChange = (newStatus: string) => {
         this.setState({
             status: newStatus
         })
     }
 
+    componentDidUpdate(prevProps: Readonly<ProfileStatusType>) {
+
+        if(prevProps.status !== this.props.status) {
+            this.setState({status: this.props.status})
+        }
+
+    }
 
     render() {
         return <div>
-            {!this.state.editMode
-                ? <div>
-                    <span onDoubleClick={this.activateEditMode.bind(this)}>{this.state.status}</span>
-                </div>
-                : <div>
-                    <input autoFocus={true} value={this.state.status} onBlur={this.deactivate.bind(this)} onChange={(e)=>this.onChange(e.currentTarget.value)}/>
-                </div>
-            }
 
+            <span>{!this.state.editMode
+                ?
+                    <span onDoubleClick={this.activateEditMode}>{this.props.status || '---No status---'}</span>
+
+                :
+                    <input autoFocus={true} value={this.state.status} onBlur={this.deactivate}
+                           onChange={(e) => this.onChange(e.currentTarget.value)}/>
+
+            }
+            </span>
 
         </div>
     }

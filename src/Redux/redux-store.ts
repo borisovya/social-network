@@ -6,12 +6,14 @@ import {usersReducer} from "./users-reduser";
 import {authReducer} from "./auth-reduser";
 import thunkMiddleware from 'redux-thunk'
 
+
 let rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
     sideBarPage: sideBarReducer,
     usersPage: usersReducer,
-    auth: authReducer
+    auth: authReducer,
+
 })
 
 export type RootStateType = ReturnType<typeof rootReducer>
