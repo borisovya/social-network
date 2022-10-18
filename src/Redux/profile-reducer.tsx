@@ -47,8 +47,6 @@ export type ProfileType = {
 let initialState = {
     posts: [
         {id: v1(), message: 'Hi how are you?', likesCount: 23},
-        {id: v1(), message: 'Is this my post?', likesCount: 12},
-        {id: v1(), message: 'Abrakadabra?', likesCount: 112},
         {id: v1(), message: 'HAHAHAH!!', likesCount: 42},
     ],
     profile:  null,

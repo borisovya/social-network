@@ -1,7 +1,7 @@
 import {
     DialogPage,
     SendMessageBodyActionCreator,
-    UpdateMessageBodyActionCreator
+    // UpdateMessageBodyActionCreator
 } from "../../Redux/dialogs-reducer";
 import {AnyAction, compose, Dispatch} from "redux";
 import {Dialogs} from "./Dialogs";
@@ -15,8 +15,7 @@ type mapStateToPropsType = {
 }
 
 type mapDispatchToProps = {
-    onChangeMessage: (newMessageValue: string) => void
-    sendMessage: () => void
+    sendMessage: (message: string) => void
 }
 
 export type dialogsType = mapStateToPropsType & mapDispatchToProps
@@ -29,11 +28,9 @@ let mapStateToProps = (state: RootStateType): mapStateToPropsType => {
 
 let mapDispatchToProps = (dispatch: Dispatch<AnyAction>): mapDispatchToProps => {
     return {
-        onChangeMessage: (newMessageValue: string) => {
-            dispatch(UpdateMessageBodyActionCreator(newMessageValue))
-        },
-        sendMessage: () => {
-            dispatch(SendMessageBodyActionCreator())
+
+        sendMessage: (message: string) => {
+            dispatch(SendMessageBodyActionCreator(message))
         }
     }
 }

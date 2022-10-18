@@ -1,10 +1,11 @@
-import { applyMiddleware, combineReducers, createStore} from "redux";
+import {AnyAction, applyMiddleware, combineReducers, createStore} from "redux";
 import {profileReducer} from "./profile-reducer";
 import {dialogsReducer} from "./dialogs-reducer";
 import {sideBarReducer} from "./sidebar-reducer";
 import {usersReducer} from "./users-reduser";
 import {authReducer} from "./auth-reduser";
-import thunkMiddleware from 'redux-thunk'
+import thunkMiddleware, {ThunkAction, ThunkDispatch} from 'redux-thunk'
+import {useDispatch} from "react-redux";
 
 
 let rootReducer = combineReducers({
@@ -20,6 +21,11 @@ export type RootStateType = ReturnType<typeof rootReducer>
 
 let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
+
+export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, RootStateType, unknown, AnyAction>
+
+type AppDispatchType = ThunkDispatch<RootStateType, void, AnyAction>
+export const useAppDispatch = () => useDispatch<AppDispatchType>();
 
 //@ts-ignore
 window.store = store

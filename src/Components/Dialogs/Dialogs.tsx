@@ -1,10 +1,10 @@
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {ChangeEvent, MouseEvent} from "react";
+import React from "react";
 import {dialogsType} from "./DialogsContainer";
 import {DialogsType, MessageType} from "../../Redux/dialogs-reducer";
-import {Redirect} from "react-router-dom";
+import {SubmitHandler, useForm} from "react-hook-form";
 
 
 export const Dialogs = (props: dialogsType) => {
@@ -13,17 +13,11 @@ export const Dialogs = (props: dialogsType) => {
                                                                                         id={d.id}/>)
     let messagesElements = props.dialogsPage.messages.map((m: MessageType) => <Message key={m.id} message={m.message}
                                                                                        id={m.id}/>)
-    let newMessageBody = props.dialogsPage.newMessage
 
-    let onChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let newMessageValue = e.currentTarget.value
-        props.onChangeMessage(newMessageValue)
-    }
-    let onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        props.sendMessage()
-    }
+    const onSubmit = (formData: FormValuesType) => {
 
-    // if (props.isAuth === false) return <Redirect to={'/login'} />
+        props.sendMessage(formData.message)
+    }
 
     return (
         <div className={s.dialogs}>
@@ -34,12 +28,50 @@ export const Dialogs = (props: dialogsType) => {
 
             <div className={s.messages}>
                 <div>{messagesElements}</div>
-                <div><textarea value={newMessageBody} onChange={onChangeMessage} placeholder='Enter your message'/>
-                </div>
-                <div>
-                    <button onClick={onClickHandler}>Send</button>
-                </div>
+
+                <AddMessageForm onSubmit={onSubmit}/>
             </div>
         </div>
     )
+}
+
+
+
+type AddMessageFormType = {
+    onSubmit: (data: FormValuesType)=>void
+}
+
+type FormValuesType = {
+    message: string,
+};
+
+const AddMessageForm = (props: AddMessageFormType) => {
+
+    const {register,
+        reset,
+        formState:{errors, isValid},
+        handleSubmit
+    } = useForm<FormValuesType>({mode: 'onChange'});
+
+    const onSubmit: SubmitHandler<FormValuesType> =(data) => {
+        props.onSubmit(data);
+        reset()
+    }
+
+    return <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+            <textarea {...register("message", {
+                required: ' Enter your message',
+                maxLength: {
+                    value: 100,
+                    message: `You have reached the maximum length limit 100 symbols`
+                }
+            })}/>
+            <span>{errors?.message && <span>{errors?.message?.message}</span>}</span>
+        </div>
+
+        <div>
+            <input type={'submit'} disabled={!isValid}/>
+        </div>
+    </form>
 }

@@ -1,12 +1,24 @@
 import React from 'react';
 import {SubmitHandler, useForm} from "react-hook-form"
+import s from './login.module.css'
+import {connect} from "react-redux";
+import {login} from "../../Redux/auth-reduser";
+import {Redirect} from "react-router-dom";
+import {RootStateType} from "../../Redux/redux-store";
 
 
+type PropsType = {
+    login: (email: string, password:string, rememberMe: boolean)=>void
+    isAuth: boolean
+}
 
-
-const Login = () => {
+const Login = (props: PropsType) => {
     const onSubmit = (formData: FormValuesType) => {
-        console.log(formData)
+        props.login(formData.email, formData.password, formData.rememberMe)
+    }
+
+    if (props.isAuth) {
+        return <Redirect to={'/profile'} />
     }
 
     return (
@@ -21,7 +33,7 @@ const Login = () => {
 
 
 type FormValuesType = {
-    login: string,
+    email: string,
     password: string,
     rememberMe: boolean
 };
@@ -33,6 +45,7 @@ type LoginFormType = {
 const LoginForm = (props: LoginFormType) => {
     const {register,
         reset,
+        trigger,
         formState:{errors, isValid},
         handleSubmit
     } = useForm<FormValuesType>({mode: 'onChange'});
@@ -42,36 +55,48 @@ const LoginForm = (props: LoginFormType) => {
         reset()
     }
 
+    const triger = () => {
+        trigger("password")
+    }
+    const triger2 = () => {
+         trigger("email")
+    }
 
     return (
         <div>
 
             <form onSubmit={handleSubmit(onSubmit)}>
-
                 <div>
-                    <div><label>login</label></div>
-                    <input {...register("login",{
+                    <div><label>email</label></div>
+                    <input  className={errors.email ? s.errorBorder: ''} {...register("email",{
                         required: 'Required',
+                        onBlur: triger2,
                         minLength: {
                             value: 1,
-                            message: 'login should be filled'
-                        }
+                            message: ' Login is required'
                         },
-
-                    )}/>
-                    <span>{errors?.login && <span>{errors?.login?.message || 'Error'}</span>}</span>
+                        maxLength: {
+                            value: 15,
+                            message: ` Max login length is 15 symbols`
+                        }})}/>
+                    <span className={s.errorText}>{errors?.email && <span>{errors?.email?.message || 'Error'}</span>}</span>
                 </div>
 
                 <div>
                     <div><label>password</label></div>
-                    <input {...register("password", {
+                    <input type='password' className={errors?.password ? s.errorBorder: ''} {...register("password", {
                         required: 'Required',
+                        onBlur: triger,
                         minLength: {
                             value: 5,
-                            message: 'min 5 letters'
+                            message: ' Min 5 symbols'
+                        },
+                        maxLength: {
+                            value: 15,
+                            message: ` Max login length is 15 symbols`
                         }
                     })}/>
-                    <span>{errors?.password && <span>{errors?.password?.message || 'Error'}</span>}</span>
+                    <span className={s.errorText}>{errors?.password && <span >{errors?.password?.message || 'Error'}</span>}</span>
                 </div>
 
                 <div>
@@ -81,12 +106,13 @@ const LoginForm = (props: LoginFormType) => {
                 <div>
                     <input type={'submit'} disabled={!isValid}/>
                 </div>
-
             </form>
         </div>
     );
 };
 
+const mapStateToProps = (state: RootStateType) => ({
+    isAuth: state.auth.isAuth
+})
 
-
-export default Login;
+export default connect(mapStateToProps, {login}) (Login);
