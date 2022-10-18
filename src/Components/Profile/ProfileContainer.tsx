@@ -11,10 +11,12 @@ import {compose} from "redux";
 export type mapStatePropsType = {
     profile: ProfileType | null
     status: string
+    authorizedUserId: number | null
+    isAuth: boolean
 }
 
 type mapDispatchToPropsType = {
-    getProfile: (userId: number) => void
+    getProfile: (userId: number | null) => void
     getUserStatus: (userId: number) => void
     updateUserStatus: (status: string) => void
 }
@@ -31,7 +33,7 @@ class ProfileContainer extends React.Component<PropsProfileType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {
-            userId = '11245'
+            userId = String(this.props.authorizedUserId)
         }
         this.props.getProfile(+userId)
         this.props.getUserStatus(+userId)
@@ -53,7 +55,9 @@ class ProfileContainer extends React.Component<PropsProfileType> {
 let mapStateToProps = (props: RootStateType): mapStatePropsType => {
     return {
         profile: props.profilePage.profile,
-        status: props.profilePage.status
+        status: props.profilePage.status,
+        authorizedUserId: props.auth.data.id,
+        isAuth: props.auth.isAuth
     }
 }
 
