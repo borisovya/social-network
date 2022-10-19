@@ -17,6 +17,7 @@ type authStateType = {
     isFetching: boolean
     isAuth: boolean
     isInitialized: boolean
+    responseError: null | string
 }
 
 let initialState: authStateType = {
@@ -30,10 +31,11 @@ let initialState: authStateType = {
     resultCode: 0,
     isFetching: false,
     isAuth: false,
-    isInitialized: false
+    isInitialized: false,
+    responseError: null
 }
 
-type AuthDataType = setAuthUserDataACType | setInitializedACType
+type AuthDataType = setAuthUserDataACType | setInitializedACType | setResponseErrorACType
 
 export const authReducer = (state: authStateType = initialState, action: AuthDataType) => {
 
@@ -42,6 +44,8 @@ export const authReducer = (state: authStateType = initialState, action: AuthDat
             return {...state, data: action.payload.data, isAuth: action.payload.isAuth}
         case 'SET-INITIALIZED':
             return {...state, isInitialized: action.payload.isInitialized}
+        case 'SET-RESPONSE-ERROR':
+            return {...state, responseError: action.message}
         default:
             return state
     }
@@ -58,8 +62,13 @@ const setInitialized = () => {
     return ({type: 'SET-INITIALIZED', payload: {isInitialized: true}}) as const
 }
 
+export type setResponseErrorACType = ReturnType<typeof setResponseError>
+const setResponseError = (message: string) => {
+    return ({type: 'SET-RESPONSE-ERROR', message}) as const
+}
 
-//thunks
+
+
 export const getAuthUserData = () => {
     return (dispatch: Dispatch<AuthDataType>) => {
 
@@ -83,6 +92,9 @@ export const login = (email: string, password: string, rememberMe: boolean): App
         const response = await AuthAPI.login(email, password, rememberMe)
         if (response.data.resultCode === 0) {
             dispatch(getAuthUserData())
+        } else if (response.data.resultCode === 1) {
+            dispatch(setResponseError(response.data.messages[0]))
+            console.log(response.data.messages[0])
         } else {
             let message = response.data.messages.length>0 ? response.data.messages[0] : 'Some error'
             console.log(message)

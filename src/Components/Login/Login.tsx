@@ -1,7 +1,7 @@
 import React from 'react';
 import {SubmitHandler, useForm} from "react-hook-form"
 import s from './login.module.css'
-import {connect} from "react-redux";
+import {connect, useSelector} from "react-redux";
 import {login} from "../../Redux/auth-reduser";
 import {Redirect} from "react-router-dom";
 import {RootStateType} from "../../Redux/redux-store";
@@ -17,6 +17,8 @@ const Login = (props: PropsType) => {
         props.login(formData.email, formData.password, formData.rememberMe)
     }
 
+    let responseError = useSelector<RootStateType, null | string>(state => state.auth.responseError)
+
     if (props.isAuth) {
         return <Redirect to={'/profile'} />
     }
@@ -24,7 +26,11 @@ const Login = (props: PropsType) => {
     return (
         <div>
             <h1>LOGIN</h1>
+
             <LoginForm onSubmit={onSubmit}/>
+
+            {responseError ? <div className={s.errorText}>{responseError}</div> : ''}
+
         </div>
     );
 };
