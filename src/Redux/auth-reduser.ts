@@ -67,25 +67,36 @@ const setResponseError = (message: string) => {
     return ({type: 'SET-RESPONSE-ERROR', message}) as const
 }
 
-
-
-export const getAuthUserData = () => {
-    return (dispatch: Dispatch<AuthDataType>) => {
-
-        AuthAPI.me()
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(setAuthUserData(response.data.data, true))
-                }
-            })
-            .catch((e)=>{
-                console.log(e)})
-            .finally(() => {
-                dispatch(setInitialized())
-        })
+export const getAuthUserData = (): AppThunkType => async dispatch => {
+    try {
+        const response = await AuthAPI.me()
+        if (response.data.resultCode === 0) {
+            dispatch(setAuthUserData(response.data.data, true))
+        }
+    } catch (error) {
+        console.log(error)
+    } finally {
+        dispatch(setInitialized())
     }
 }
 
+// export const getAuthUserData = () => {
+//     return (dispatch: Dispatch<AuthDataType>) => {
+//
+//         AuthAPI.me()
+//             .then(response => {
+//                 if (response.data.resultCode === 0) {
+//                     dispatch(setAuthUserData(response.data.data, true))
+//                 }
+//             })
+//             .catch((e) => {
+//                 console.log(e)
+//             })
+//             .finally(() => {
+//                 dispatch(setInitialized())
+//             })
+//     }
+// }
 
 export const login = (email: string, password: string, rememberMe: boolean): AppThunkType => async dispatch => {
     try {
@@ -96,25 +107,37 @@ export const login = (email: string, password: string, rememberMe: boolean): App
             dispatch(setResponseError(response.data.messages[0]))
             console.log(response.data.messages[0])
         } else {
-            let message = response.data.messages.length>0 ? response.data.messages[0] : 'Some error'
+            let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
             console.log(message)
         }
     } catch (error) {
         console.log(error)
     }
-
 }
 
-export const logout = () => {
-    return (dispatch: Dispatch<AuthDataType>) => {
-        AuthAPI.logout()
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(setAuthUserData({...response.data, id: null, email: null, login: null}, false))
-                }
-            })
+// export const logout2 = () => {
+//     return (dispatch: Dispatch<AuthDataType>) => {
+//         AuthAPI.logout()
+//             .then(response => {
+//                 if (response.data.resultCode === 0) {
+//                     dispatch(setAuthUserData({...response.data, id: null, email: null, login: null}, false))
+//                 }
+//             })
+//     }
+// }
+
+export const logout = (): AppThunkType => async dispatch => {
+    try {
+        const response = await AuthAPI.logout()
+        if (response.data.resultCode === 0) {
+            dispatch(setAuthUserData({...response.data, id: null, email: null, login: null}, false))
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
+
+
 
 
 
