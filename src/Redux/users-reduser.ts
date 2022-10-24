@@ -1,6 +1,6 @@
 import {UsersAPI} from "../API/API";
 
-import {AnyAction, Dispatch} from "redux";
+import {Dispatch} from "redux";
 
 
 
@@ -100,11 +100,12 @@ export const toggleFollowingInProgress = (toggleFetching: boolean, userId: numbe
 
 
 
-export const getUsers = (currentPage: number, pageSize: number) => {
+export const getUsers = (page: number, pageSize: number) => {
 
-    return (dispatch: any) => {
+    return (dispatch: Dispatch) => {
         dispatch(toggleIsFetching(true))
-        UsersAPI.getUsers(currentPage, pageSize)
+        dispatch(changeCurrentPage(page))
+        UsersAPI.getUsers(page, pageSize)
             .then(data => {
                 dispatch(toggleIsFetching(false))
                 dispatch(setUsers(data.items))
@@ -116,7 +117,7 @@ export const getUsers = (currentPage: number, pageSize: number) => {
 
 export const following = (userId: number) => {
 
-    return (dispatch: any) => {
+    return (dispatch: Dispatch) => {
         dispatch(toggleFollowingInProgress(true, userId))
         UsersAPI.followUser(userId)
             .then(data => {
@@ -131,7 +132,7 @@ export const following = (userId: number) => {
 
 export const unFollowing = (userId: number) => {
 
-    return (dispatch: any) =>  {
+    return (dispatch: Dispatch) =>  {
         dispatch(toggleFollowingInProgress(true, userId))
         UsersAPI.unFollowUser(userId)
             .then(data => {
