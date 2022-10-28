@@ -3,6 +3,7 @@ import s from './Profileinfo.module.css'
 import defaultPhoto from "../../../asseds/imgs/profileDefaultPic.png";
 import {ProfileType} from "../../../Redux/profile-reducer";
 import ProfileStatus from "../ProfileStatus";
+import ProfileStatusWithHooks from "../ProfileStatusWithHooks";
 
 
 type PropsType = {
@@ -32,7 +33,8 @@ const ProfileInfo = (props: PropsType) => {
         <div className={s.descriptionBlock}>
 
             <img src ={props.profile.photos.large !=null ? props.profile.photos.large : defaultPhoto} alt='#' />
-            <ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/>
+            {/*<ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/>*/}
+            <ProfileStatusWithHooks status={props.status} updateUserStatus={props.updateUserStatus}/>
 
             <div>
                 <h3> Name: {props.profile.fullName} </h3>
