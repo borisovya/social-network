@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import s from './Profileinfo.module.css'
 import defaultPhoto from "../../../asseds/imgs/profileDefaultPic.png";
 import {ProfileType} from "../../../Redux/profile-reducer";
-import ProfileStatus from "../ProfileStatus";
 import ProfileStatusWithHooks from "../ProfileStatusWithHooks";
 
 

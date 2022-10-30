@@ -63,13 +63,10 @@ export const profileReducer = (state: ProfileReducerInitStateType = initialState
                 likesCount: 0,
             };
             return {...state, posts: [...state.posts, newPost]}
-
         case 'SET-PROFILE':
             return {...state, profile: action.profile}
         case 'SET-STATUS':
-
             return {...state, status: action.status}
-
         default:
             return state
     }
@@ -109,7 +106,8 @@ export const getUserStatus = (userId: number) =>{
         ProfileAPI.getStatus(+userId)
             .then(response => {
                 dispatch(setStatus(response.data))
-            });
+            }) .catch((e)=>{
+            console.log(e.message)});
     }
 }
 

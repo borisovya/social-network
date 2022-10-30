@@ -24,7 +24,7 @@ class ProfileStatus extends React.Component<ProfileStatusType> {
     activateEditMode = () => {
         this.setState({
             editMode: true
-        }) // setState асинхронный
+        })
     }
 
     deactivate = () => {
