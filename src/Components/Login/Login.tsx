@@ -94,8 +94,8 @@ const LoginForm = (props: LoginFormType) => {
                         required: 'Required',
                         onBlur: triger,
                         minLength: {
-                            value: 5,
-                            message: ' Min 5 symbols'
+                            value: 4,
+                            message: ' Min 4 symbols'
                         },
                         maxLength: {
                             value: 15,
