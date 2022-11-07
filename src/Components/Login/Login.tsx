@@ -98,8 +98,8 @@ const LoginForm = (props: LoginFormType) => {
                             message: ' Min 4 symbols'
                         },
                         maxLength: {
-                            value: 15,
-                            message: ` Max login length is 15 symbols`
+                            value: 25,
+                            message: ` Max login length is 25 symbols`
                         }
                     })}/>
                     <span className={s.errorText}>{errors?.password && <span >{errors?.password?.message || 'Error'}</span>}</span>
