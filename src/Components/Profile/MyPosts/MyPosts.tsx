@@ -6,10 +6,10 @@ import {MyPostsType} from "./MyPostsContainer";
 import {SubmitHandler, useForm} from "react-hook-form";
 
 
+const MyPosts = React.memo((props: MyPostsType) => {
 
-const MyPosts = (props: MyPostsType) => {
-
-    let postsElement = props.posts.map((p:PostsType) => <Post key={p.id} id={p.id}message={p.message} likesCount={p.likesCount}/>)
+    let postsElement = props.posts.map((p: PostsType) => <Post key={p.id} id={p.id} message={p.message}
+                                                               likesCount={p.likesCount}/>)
 
     const onSubmit = (formData: FormValuesType) => {
         props.addPost(formData.postText)
@@ -22,11 +22,12 @@ const MyPosts = (props: MyPostsType) => {
         </div>
 
         <div className={s.posts}>
-            { postsElement }
+            {postsElement}
         </div>
     </div>
 
-}
+})
+
 export default MyPosts;
 
 

@@ -10,7 +10,7 @@ import Preloader from "../Common/Preloader";
 const Profile = (props: PropsProfileType) => {
 
     if (!props.profile) {
-        return <Preloader />
+        return <div style={{textAlign: 'center'}}><Preloader /></div>
     }
 
 

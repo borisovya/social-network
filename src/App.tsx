@@ -28,7 +28,7 @@ function App() {
         dispatch(getAuthUserData());
     },[])
 
-    if (!isInitialized) return <Preloader />
+    if (!isInitialized) return <div style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}><Preloader /></div>
 
     return (
         <BrowserRouter>
