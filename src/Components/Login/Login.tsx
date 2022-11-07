@@ -79,11 +79,11 @@ const LoginForm = (props: LoginFormType) => {
                         onBlur: triger2,
                         minLength: {
                             value: 1,
-                            message: ' Login is required'
+                            message: ' Email is required'
                         },
                         maxLength: {
-                            value: 25,
-                            message: ` Max login length is 25 symbols`
+                            value: 35,
+                            message: ` Max email length is 35 symbols`
                         }})}/>
                     <span className={s.errorText}>{errors?.email && <span>{errors?.email?.message || 'Error'}</span>}</span>
                 </div>
