@@ -1,5 +1,4 @@
 import {AuthAPI} from "../API/API";
-import {Dispatch} from "redux";
 import {AppThunkType} from "./redux-store";
 
 
@@ -80,23 +79,7 @@ export const getAuthUserData = (): AppThunkType => async dispatch => {
     }
 }
 
-// export const getAuthUserData = () => {
-//     return (dispatch: Dispatch<AuthDataType>) => {
-//
-//         AuthAPI.me()
-//             .then(response => {
-//                 if (response.data.resultCode === 0) {
-//                     dispatch(setAuthUserData(response.data.data, true))
-//                 }
-//             })
-//             .catch((e) => {
-//                 console.log(e)
-//             })
-//             .finally(() => {
-//                 dispatch(setInitialized())
-//             })
-//     }
-// }
+
 
 export const login = (email: string, password: string, rememberMe: boolean): AppThunkType => async dispatch => {
     try {
@@ -115,16 +98,6 @@ export const login = (email: string, password: string, rememberMe: boolean): App
     }
 }
 
-// export const logout2 = () => {
-//     return (dispatch: Dispatch<AuthDataType>) => {
-//         AuthAPI.logout()
-//             .then(response => {
-//                 if (response.data.resultCode === 0) {
-//                     dispatch(setAuthUserData({...response.data, id: null, email: null, login: null}, false))
-//                 }
-//             })
-//     }
-// }
 
 export const logout = (): AppThunkType => async dispatch => {
     try {

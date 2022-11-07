@@ -6,7 +6,7 @@ import {
     setUsers, toggleFollowingInProgress, toggleIsFetching,
      unFollowing,
     UsersType
-} from "../../Redux/users-reduser";
+} from "../../Redux/users-reducer";
 import {RootStateType} from "../../Redux/redux-store";
 import Users from "./Users";
 import Preloader from "../Common/Preloader";
@@ -19,8 +19,6 @@ import {
     getUserCount,
     getUsersSelect
 } from "../../Redux/users-selectors";
-
-
 
 type UserContainerType = {
     users: Array<UsersType>,
@@ -38,9 +36,7 @@ type UserContainerType = {
     getUsers: (currentPage: number, pageSize: number) => void
 }
 
-
 class UsersContainer extends React.Component<UserContainerType> {
-
 
     componentDidMount(): void {
         this.props.getUsers(this.props.currentPage, this.props.pageSize)
@@ -52,7 +48,6 @@ class UsersContainer extends React.Component<UserContainerType> {
     }
 
     render() {
-
         return <>
             {this.props.isFetching ? <div style={{textAlign: 'center'}}><Preloader/></div> : null}
 
@@ -66,11 +61,9 @@ class UsersContainer extends React.Component<UserContainerType> {
                 unFollowing={this.props.unFollowing}
                 isFollowingInProgress = {this.props.isFollowingInProgress}
             />
-
         </>
     }
 }
-
 // let mapStateToProps = (state: RootStateType) => {
 //     return {
 //         users: state.usersPage.users,
@@ -81,7 +74,6 @@ class UsersContainer extends React.Component<UserContainerType> {
 //         isFollowingInProgress: state.usersPage.isFollowingInProgress
 //     }
 // }
-
 let mapStateToProps = (state: RootStateType) => {
     return {
         users: getUsersSelect(state),
