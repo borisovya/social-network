@@ -25,13 +25,12 @@ const Users = ({
                    isFollowingInProgress,
                    unFollowing,
                    following,
-                   ...props
                }: propsType) => {
 
 
     return <div>
         <div>
-            <Paginator onPageChange={onPageChange} totalUsersCount={totalUsersCount} pageSize={pageSize}
+            <Paginator onPageChange={onPageChange} totalItemsCount={totalUsersCount} pageSize={pageSize}
                        currentPage={currentPage}/>
         </div>
         <div>

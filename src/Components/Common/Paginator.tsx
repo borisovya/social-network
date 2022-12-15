@@ -1,33 +1,76 @@
-import React from 'react'
+import React, {useState} from 'react'
 import s from "./Paginator.module.css";
 
 type propsType = {
 
-    onPageChange: (p: number)=> void
-    totalUsersCount: number
+    onPageChange: (p: number) => void
+    totalItemsCount: number
     pageSize: number
     currentPage: number
+    portionSize?: number
 }
 
-const Paginator = (props: propsType) => {
+const Paginator = ({onPageChange,
+                       totalItemsCount,
+                       pageSize,
+                       currentPage,
+                       portionSize = 10
+                   }: propsType) => {
 
-    // let pagesCount: number = Math.ceil(props.totalUsersCount / props.pageSize)
-    //
-    // let pages: Array<number> = [];
-    // for (let i = 1; i <= pagesCount; i++) {
-    //     pages.push(i)
-    // }
+    let pagesCount: number = Math.ceil(totalItemsCount / pageSize)
+
+    let pages: Array<number> = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i)
+    }
+
+    let portionCount = Math.ceil(pagesCount / portionSize)
+    let [portionNumber, setPortionNumber] = useState(1)
+    let leftPortionLimit = (portionNumber - 1) * portionSize + 1
+    let rightPortionLimit = portionNumber * portionSize
 
 
-    return <div>
-            {/*{pages.map(p => {*/}
-            {/*    return <span onClick={(event) => {*/}
-            {/*        props.onPageChange(p)*/}
-            {/*    }} className={props.currentPage === p ? s.selectedPage : ''}>{p}</span>*/}
-            {/*})}*/}
-        <Paginator onPageChange={props.onPageChange} totalUsersCount={props.totalUsersCount} pageSize={props.pageSize} currentPage={props.currentPage} />
-        </div>
-        
+    return <div className={s.paginator}>
+        {portionNumber > 1 &&
+            <button
+                className={s.buttonChangePortion}
+                onClick={() => {
+                    setPortionNumber(portionNumber - 1)
+                }}
+            >
+                {'< PREV'}
+            </button>
+        }
+
+        {pages
+            .filter(p => p >= leftPortionLimit && p <= rightPortionLimit)
+            .map(p => {
+                return (
+                    <button
+                        key={p}
+                        className={`${currentPage === p && s.selectedPage} ${s.pageNumber}`}
+                        onClick={() => {
+                            onPageChange(p)
+                        }}
+                    >
+                        {p}
+                    </button>
+                )
+            })}
+
+        {portionCount > portionNumber &&
+            <button
+                className={s.buttonChangePortion}
+                onClick={() => {
+                    setPortionNumber(portionNumber + 1)
+                }}
+            >
+                {'NEXT >'}
+            </button>
+        }
+
+    </div>
+
 }
 
 export default Paginator
