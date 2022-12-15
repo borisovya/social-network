@@ -9,7 +9,6 @@ import {
 } from "../../Redux/users-reducer";
 import {RootStateType} from "../../Redux/redux-store";
 import Users from "./Users";
-import Preloader from "../Common/Preloader";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/WithAuthRedirect";
 import {
@@ -49,7 +48,7 @@ class UsersContainer extends React.Component<UserContainerType> {
 
     render() {
         return <>
-            {this.props.isFetching ? <div style={{textAlign: 'center'}}><Preloader/></div> : null}
+            {/*{this.props.isFetching ? <div style={{textAlign: 'center'}}><Preloader/></div> : null}*/}
 
             <Users
                 totalUsersCount={this.props.totalUsersCount}
@@ -64,16 +63,7 @@ class UsersContainer extends React.Component<UserContainerType> {
         </>
     }
 }
-// let mapStateToProps = (state: RootStateType) => {
-//     return {
-//         users: state.usersPage.users,
-//         pageSize: state.usersPage.pageSize,
-//         totalUsersCount: state.usersPage.totalUsersCount,
-//         currentPage: state.usersPage.currentPage,
-//         isFetching: state.usersPage.isFetching,
-//         isFollowingInProgress: state.usersPage.isFollowingInProgress
-//     }
-// }
+
 let mapStateToProps = (state: RootStateType) => {
     return {
         users: getUsersSelect(state),
@@ -84,17 +74,6 @@ let mapStateToProps = (state: RootStateType) => {
         isFollowingInProgress: getIsFollowingInProgress(state)
     }
 }
-
-// export default connect(mapStateToProps, {
-//     setUsers,
-//     changeCurrentPage,
-//     setTotalUsersCount,
-//     toggleIsFetching,
-//     toggleFollowingInProgress,
-//     getUsers,
-//     following,
-//     unFollowing
-// })(UsersContainer)
 
 export default compose<React.ComponentType>(
     withAuthRedirect,
