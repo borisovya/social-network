@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {PropsProfileType} from "./ProfileContainer";
-
 
 type ProfileStatusType = {
     status: string
@@ -8,8 +6,6 @@ type ProfileStatusType = {
 }
 
 const ProfileStatusWithHooks = (props: ProfileStatusType) => {
-
-
     let [editMode, setEditMode] = useState<boolean>(false)
     let [status, setStatus] = useState<string>(props.status)
 

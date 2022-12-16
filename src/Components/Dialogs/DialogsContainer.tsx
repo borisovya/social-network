@@ -1,7 +1,6 @@
 import {
     DialogPage,
     SendMessageBodyActionCreator,
-    // UpdateMessageBodyActionCreator
 } from "../../Redux/dialogs-reducer";
 import {AnyAction, compose, Dispatch} from "redux";
 import {Dialogs} from "./Dialogs";
@@ -34,10 +33,6 @@ let mapDispatchToProps = (dispatch: Dispatch<AnyAction>): mapDispatchToProps => 
         }
     }
 }
-
-
-// let AuthRedirectComponent = withAuthRedirect(Dialogs)
-// const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, mapDispatchToProps),

@@ -48,8 +48,6 @@ class UsersContainer extends React.Component<UserContainerType> {
 
     render() {
         return <>
-            {/*{this.props.isFetching ? <div style={{textAlign: 'center'}}><Preloader/></div> : null}*/}
-
             <Users
                 totalUsersCount={this.props.totalUsersCount}
                 pageSize={this.props.pageSize}

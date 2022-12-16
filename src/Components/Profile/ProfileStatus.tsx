@@ -1,12 +1,4 @@
 import React from 'react';
-import {PropsProfileType} from "./ProfileContainer";
-
-// type PropsType = {
-//     status: string
-//     changeMode: () => void
-//     mode: boolean
-//     onChange: (newStatus: string)=>void
-// }
 
 type ProfileStatusType = {
     status: string
@@ -14,7 +6,6 @@ type ProfileStatusType = {
 }
 
 class ProfileStatus extends React.Component<ProfileStatusType> {
-
 
     state = {
         editMode: false,
@@ -42,7 +33,7 @@ class ProfileStatus extends React.Component<ProfileStatusType> {
 
     componentDidUpdate(prevProps: Readonly<ProfileStatusType>) {
 
-        if(prevProps.status !== this.props.status) {
+        if (prevProps.status !== this.props.status) {
             this.setState({status: this.props.status})
         }
 
@@ -53,19 +44,17 @@ class ProfileStatus extends React.Component<ProfileStatusType> {
 
             <span>{!this.state.editMode
                 ?
-                    <span onDoubleClick={this.activateEditMode}>{this.props.status || '---No status---'}</span>
+                <span onDoubleClick={this.activateEditMode}>{this.props.status || '---No status---'}</span>
 
                 :
-                    <input autoFocus={true} value={this.state.status} onBlur={this.deactivate}
-                           onChange={(e) => this.onChange(e.currentTarget.value)}/>
+                <input autoFocus={true} value={this.state.status} onBlur={this.deactivate}
+                       onChange={(e) => this.onChange(e.currentTarget.value)}/>
 
             }
             </span>
 
         </div>
     }
-
-
-};
+}
 
 export default ProfileStatus;

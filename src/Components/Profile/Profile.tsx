@@ -4,23 +4,17 @@ import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {PropsProfileType} from "./ProfileContainer";
 import Preloader from "../Common/Preloader";
 
-
-
-
 const Profile = (props: PropsProfileType) => {
 
     if (!props.profile) {
-        return <div style={{textAlign: 'center'}}><Preloader /></div>
+        return <div style={{textAlign: 'center'}}><Preloader/></div>
     }
 
-
     return <div>
-
         <ProfileInfo profile={props.profile}
                      status={props.status}
                      updateUserStatus={props.updateUserStatus}/>
-        <MyPostsContainer />
-
+        <MyPostsContainer/>
     </div>
 }
 

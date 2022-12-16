@@ -7,7 +7,6 @@ import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
 
-
 export type mapStatePropsType = {
     profile: ProfileType | null
     status: string
@@ -34,15 +33,10 @@ class ProfileContainer extends React.Component<PropsProfileType> {
         let userId = this.props.match.params.userId
         if (!userId) {
             userId = String(this.props.authorizedUserId)
-            // if (!userId) {
-            //     this.props.history.push('/login')
-            // }
         }
         this.props.getProfile(+userId)
         this.props.getUserStatus(+userId)
     }
-
-
     render() {
 
 
@@ -54,7 +48,6 @@ class ProfileContainer extends React.Component<PropsProfileType> {
     }
 }
 
-
 let mapStateToProps = (props: RootStateType): mapStatePropsType => {
     return {
         profile: props.profilePage.profile,
@@ -63,10 +56,6 @@ let mapStateToProps = (props: RootStateType): mapStatePropsType => {
         isAuth: props.auth.isAuth
     }
 }
-
-// let AuthRedirectComponent  = withAuthRedirect(ProfileContainer)
-// let WithUrlDataContainerComponent = withRouter<PropsProfileType, any>(AuthRedirectComponent);
-// export default connect(mapStateToProps, {getProfile}) (WithUrlDataContainerComponent);
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {getProfile, getUserStatus, updateUserStatus}),

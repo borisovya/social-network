@@ -7,7 +7,6 @@ import {authReducer} from "./auth-reduser";
 import thunkMiddleware, {ThunkAction, ThunkDispatch} from 'redux-thunk'
 import {useDispatch} from "react-redux";
 
-
 let rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,

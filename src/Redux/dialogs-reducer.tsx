@@ -45,7 +45,6 @@ export const dialogsReducer = (state: DialogPage = initialState, action: Dialogs
     }
 }
 
-
 export const SendMessageBodyActionCreator = (message: string): SendNewMessageType => {
     return ({type: ADD_NEW_MESSAGE, message})
 }

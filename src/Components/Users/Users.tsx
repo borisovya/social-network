@@ -3,7 +3,6 @@ import {UsersType} from "../../Redux/users-reducer";
 import Paginator from "../Common/Paginator";
 import User from "./User";
 
-
 type propsType = {
     totalUsersCount: number
     pageSize: number
@@ -26,8 +25,6 @@ const Users = ({
                    unFollowing,
                    following,
                }: propsType) => {
-
-
     return <div>
         <div>
             <Paginator onPageChange={onPageChange} totalItemsCount={totalUsersCount} pageSize={pageSize}

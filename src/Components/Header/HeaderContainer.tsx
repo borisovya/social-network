@@ -5,7 +5,6 @@ import {logout} from "../../Redux/auth-reduser";
 import {RootStateType} from "../../Redux/redux-store";
 
 
-
 export type mapStateToPropsType = {
     isAuth: boolean
     login: string | null
@@ -15,13 +14,11 @@ type mapDispatchToPropsType = {
     logout: () => void
 }
 
-
 export type HeaderContainerType = mapStateToPropsType & mapDispatchToPropsType
 
 class HeaderContainer extends React.Component<HeaderContainerType> {
 
     render() {
-
         return <Header {...this.props}/>
     }
 

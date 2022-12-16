@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import s from './Profileinfo.module.css'
 import defaultPhoto from "../../../asseds/imgs/profileDefaultPic.png";
 import {ProfileType} from "../../../Redux/profile-reducer";
@@ -13,28 +13,10 @@ type PropsType = {
 
 const ProfileInfo = (props: PropsType) => {
 
-    // const[mode, setMode] = useState<boolean>(false)
-    // const[status, setStatus] = useState<string>('Hello dude')
-    //
-    // const onChange = (newStatus: string)=> {
-    //     setStatus(newStatus)
-    // }
-    //
-    // const changeMode =() => {
-    //     setMode(!mode)
-    // }
-
     return <div>
-        {/*<div>*/}
-        {/*    <img src='https://upload.wikimedia.org/wikipedia/commons/8/8f/Wide_San_Diego_Night.jpg'*/}
-        {/*         className={s.headImg}/>*/}
-        {/*</div>*/}
         <div className={s.descriptionBlock}>
-
-            <img src ={props.profile.photos.large !=null ? props.profile.photos.large : defaultPhoto} alt='#' />
-            {/*<ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/>*/}
+            <img src={props.profile.photos.large != null ? props.profile.photos.large : defaultPhoto} alt='#'/>
             <ProfileStatusWithHooks status={props.status} updateUserStatus={props.updateUserStatus}/>
-
             <div>
                 <h3> Name: {props.profile.fullName} </h3>
                 <div> About Me: {props.profile.aboutMe}</div>

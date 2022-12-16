@@ -2,7 +2,6 @@ import {UsersAPI} from "../API/API";
 
 import {Dispatch} from "redux";
 
-
 export type UserPageType = {
     users: Array<UsersType>
     pageSize: number,
@@ -30,7 +29,6 @@ type PhotoType = {
     small: string | null
     large: string | null
 }
-
 
 let initialState = {
     users: [],
@@ -104,7 +102,6 @@ export const toggleFollowingInProgress = (toggleFetching: boolean, userId: numbe
     return ({type: 'TOGGLE-FOLLOWING-IN-PROGRESS', toggleFetching, userId}) as const
 }
 
-
 export const getUsers = (page: number, pageSize: number) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
     dispatch(changeCurrentPage(page))
@@ -115,7 +112,6 @@ export const getUsers = (page: number, pageSize: number) => async (dispatch: Dis
     dispatch(setTotalUsersCount(response.totalCount))
 }
 
-
 export const following = (userId: number) => async (dispatch: Dispatch) => {
     dispatch(toggleFollowingInProgress(true, userId))
     const response = await UsersAPI.followUser(userId)
@@ -124,7 +120,6 @@ export const following = (userId: number) => async (dispatch: Dispatch) => {
         dispatch(toggleFollowingInProgress(false, userId))
     }
 }
-
 
 export const unFollowing = (userId: number) => {
     return async (dispatch: Dispatch) => {
@@ -136,8 +131,6 @@ export const unFollowing = (userId: number) => {
         }
     }
 }
-
-
 
 export type followACType = ReturnType<typeof follow>
 export type unFollowACType = ReturnType<typeof unFollow>

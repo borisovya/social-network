@@ -1,7 +1,6 @@
 import {AuthAPI} from "../API/API";
 import {AppThunkType} from "./redux-store";
 
-
 export type DataType = {
     id: number | null
     login: string | null
@@ -50,7 +49,6 @@ export const authReducer = (state: authStateType = initialState, action: AuthDat
     }
 }
 
-
 export type setAuthUserDataACType = ReturnType<typeof setAuthUserData>
 const setAuthUserData = (data: DataType, isAuth: boolean) => {
     return ({type: 'SET-AUTH-USER-DATA', payload: {data, isAuth}}) as const
@@ -79,8 +77,6 @@ export const getAuthUserData = (): AppThunkType => async dispatch => {
     }
 }
 
-
-
 export const login = (email: string, password: string, rememberMe: boolean): AppThunkType => async dispatch => {
     try {
         const response = await AuthAPI.login(email, password, rememberMe)
@@ -97,7 +93,6 @@ export const login = (email: string, password: string, rememberMe: boolean): App
         console.log(error)
     }
 }
-
 
 export const logout = (): AppThunkType => async dispatch => {
     try {
