@@ -2,8 +2,6 @@ import {v1} from "uuid";
 import {ProfileAPI} from "../API/API";
 
 import {Dispatch} from "redux";
-import {AxiosError} from "axios";
-
 
 export type PostsType = {
     id: string
@@ -34,12 +32,12 @@ export type PhotoProfileType = {
 }
 
 export type ProfileType = {
-    aboutMe: string,
-    contacts: ContactsType,
-    lookingForAJob: boolean,
-    lookingForAJobDescription: string,
-    fullName: string,
-    userId: number,
+    aboutMe?: string | undefined,
+    contacts?: ContactsType | undefined,
+    lookingForAJob?: boolean | undefined,
+    lookingForAJobDescription?: string | undefined,
+    fullName?: string | undefined,
+    userId?: number | undefined,
     photos: PhotoProfileType
 
 }
@@ -54,7 +52,7 @@ let initialState = {
     status: ''
 }
 
-export const profileReducer = (state: ProfileReducerInitStateType = initialState, action: ActionType) => {
+export const profileReducer = (state: ProfileReducerInitStateType = initialState, action: ActionType): ProfileReducerInitStateType => {
 
     switch (action.type) {
         case 'ADD-POST':
@@ -68,13 +66,23 @@ export const profileReducer = (state: ProfileReducerInitStateType = initialState
             return {...state, profile: action.profile}
         case 'SET-STATUS':
             return {...state, status: action.status}
+        case "SAVE-PHOTO-SUCCESS":
+            return {
+                ...state, profile: {
+                    ...state.profile,
+                    photos: {
+                        large: action.photos,
+                        small: action.photos
+                    }
+                }
+            }
         default:
             return state
     }
 }
 
 
-type ActionType = AddPostActionType | SetProfileType | SetStatusType
+type ActionType = AddPostActionType | SetProfileType | SetStatusType | SavePhotoSuccessType
 
 export type AddPostActionType = ReturnType<typeof addPost>
 export const addPost = (postTitle: string) => {
@@ -91,10 +99,24 @@ const setStatus = (status: string) => {
     return ({type: 'SET-STATUS', status}) as const
 }
 
+type SavePhotoSuccessType = ReturnType<typeof savePhotoSuccess>
+const savePhotoSuccess = (photos: string) => {
+    return ({type: 'SAVE-PHOTO-SUCCESS', photos}) as const
+}
+
 
 export const getProfile = (userId: number) => async (dispatch: Dispatch) => {
     const response = await ProfileAPI.getProfile(+userId)
     dispatch(setProfile(response.data))
+}
+
+export const savePhoto = (photo: File) => async (dispatch: Dispatch) => {
+    const response = await ProfileAPI.savePhoto(photo)
+
+    if (response.data.resultCode === 0) {
+        dispatch(savePhotoSuccess(response.data.data.photos.large))
+    }
+
 }
 
 export const getUserStatus = (userId: number) => async (dispatch: Dispatch) => {
