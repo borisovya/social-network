@@ -1,7 +1,8 @@
-import {ContactsType, ProfileType} from "../../../Redux/profile-reducer";
-import React from "react";
+import {ContactsType, ProfileType, saveProfile} from "../../../Redux/profile-reducer";
+import React, {useEffect} from "react";
 import {Contacts} from "./Profileinfo";
 import {SubmitHandler, useForm} from "react-hook-form";
+import {useAppDispatch} from "../../../Redux/redux-store";
 
 type IncomingProfileType = {
     profile: ProfileType
@@ -12,6 +13,7 @@ type IncomingProfileType = {
 type FormValuesType = {
     fullName: string,
     aboutMe: string,
+    lookingForAJobDescription: string,
     lookingForAJob: boolean
 };
 
@@ -22,8 +24,22 @@ export const ProfileDataForm = ({profile, activateEditMode}: IncomingProfileType
         reset,
         trigger,
         formState: {errors, isValid},
-        handleSubmit
-    } = useForm<FormValuesType>({mode: 'onChange'});
+        handleSubmit,
+        setValue,
+    } = useForm<FormValuesType>({mode: 'onChange', defaultValues: {
+            fullName: profile.fullName,
+            aboutMe: profile.aboutMe,
+            lookingForAJobDescription: profile.lookingForAJobDescription,
+            lookingForAJob: profile.lookingForAJob
+        }});
+
+    useEffect(()=>{
+        // if(profile) {
+            setValue('fullName', profile.fullName!)
+        // }
+    }, [profile])
+
+    const dispatch = useAppDispatch()
 
     const triger = () => {
         trigger("fullName")
@@ -33,7 +49,8 @@ export const ProfileDataForm = ({profile, activateEditMode}: IncomingProfileType
     }
 
     const onSubmit: SubmitHandler<FormValuesType> = (data) => {
-        console.log(data);
+        dispatch(saveProfile(data));
+        console.log(data)
         activateEditMode()
         reset()
     }
@@ -45,7 +62,7 @@ export const ProfileDataForm = ({profile, activateEditMode}: IncomingProfileType
         <div>
             <div><label>Full Name</label></div>
             <input  {...register("fullName", {
-                required: 'Required',
+                required: true,
                 onBlur: triger,
                 minLength: {
                     value: 1,
@@ -61,8 +78,8 @@ export const ProfileDataForm = ({profile, activateEditMode}: IncomingProfileType
 
         <div>
             <div><label>About Me</label></div>
-            <input  {...register("aboutMe", {
-                required: 'Required',
+            <textarea  {...register("aboutMe", {
+                required: true,
                 onBlur: triger2,
                 minLength: {
                     value: 1,
@@ -74,6 +91,23 @@ export const ProfileDataForm = ({profile, activateEditMode}: IncomingProfileType
                 }
             })}/>
             <span>{errors?.aboutMe && <span>{errors?.aboutMe?.message || 'Error'}</span>}</span>
+        </div>
+
+        <div>
+            <div><label>Skills</label></div>
+            <textarea  {...register("lookingForAJobDescription", {
+                required: true,
+                onBlur: triger2,
+                minLength: {
+                    value: 1,
+                    message: ' Skills are required'
+                },
+                maxLength: {
+                    value: 350,
+                    message: ` Max Skills length is 350 symbols`
+                }
+            })}/>
+            <span>{errors?.lookingForAJobDescription && <span>{errors?.lookingForAJobDescription?.message || 'Error'}</span>}</span>
         </div>
 
         <div>

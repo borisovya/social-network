@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {ProfileAPI} from "../API/API";
 
-import {Dispatch} from "redux";
+import { Dispatch} from "redux";
 
 export type PostsType = {
     id: string
@@ -26,19 +26,21 @@ export type ContactsType = {
     mainLink: string | null
 }
 
+export type Nullable<T> = T | null;
+
 export type PhotoProfileType = {
-    small: string | null,
-    large: string | null
+    small: Nullable<string>
+    large: Nullable<string>
 }
 
 export type ProfileType = {
-    aboutMe?: string | undefined,
-    contacts?: ContactsType | undefined,
-    lookingForAJob?: boolean | undefined,
-    lookingForAJobDescription?: string | undefined,
-    fullName?: string | undefined,
-    userId?: number | undefined,
-    photos: PhotoProfileType
+    aboutMe?: string
+    contacts?: ContactsType
+    lookingForAJob?: boolean
+    lookingForAJobDescription?: string
+    fullName?: string
+    userId?: number
+    photos?: PhotoProfileType
 
 }
 
@@ -116,7 +118,14 @@ export const savePhoto = (photo: File) => async (dispatch: Dispatch) => {
     if (response.data.resultCode === 0) {
         dispatch(savePhotoSuccess(response.data.data.photos.large))
     }
+}
 
+export const saveProfile = (profile: ProfileType) => async (dispatch: Dispatch) => {
+    const response = await ProfileAPI.saveProfile(profile)
+
+    if (response.data.resultCode === 0) {
+        dispatch(setProfile(profile))
+    }
 }
 
 export const getUserStatus = (userId: number) => async (dispatch: Dispatch) => {

@@ -18,13 +18,15 @@ let rootReducer = combineReducers({
 
 export type RootStateType = ReturnType<typeof rootReducer>
 
-let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, RootStateType, unknown, AnyAction>
 
-type AppDispatchType = ThunkDispatch<RootStateType, void, AnyAction>
+type AppDispatchType = ThunkDispatch<RootStateType, unknown, AnyAction>
 export const useAppDispatch = () => useDispatch<AppDispatchType>();
+
+export const getState = () => store
 
 //@ts-ignore
 window.store = store
