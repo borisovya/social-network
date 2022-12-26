@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import s from './Profileinfo.module.css'
 import defaultPhoto from "../../../asseds/imgs/profileDefaultPic.png";
-import {ProfileType} from "../../../Redux/profile-reducer";
+import {ContactsType, ProfileType} from "../../../Redux/profile-reducer";
 import ProfileStatusWithHooks from "../ProfileStatusWithHooks";
 import {ProfileDataForm} from "./ProfileDataForm";
 
@@ -44,7 +44,7 @@ type ContactType = {
 
 export const Contacts = ({contactTitle, contactValue}: ContactType) => {
     return <div className={s.contact}>
-        <b>{contactTitle}</b>: <b>{contactValue}</b>
+        <b>{contactTitle}</b>: {contactValue}
     </div>
 }
 
@@ -62,10 +62,10 @@ export const ProfileData = ({profile, isOwner, activateEditMode}: IncomingProfil
         </div>}
         <h3><b>Full name</b>: {profile.fullName} </h3>
         <div><b>About Me </b>: {profile.aboutMe}</div>
-        {/*<div><b>Contacts </b>: {profile.contacts && Object.keys(profile.contacts).map((key) => {*/}
-        {/*    return <Contacts key={key} contactTitle={key}*/}
-        {/*                     contactValue={profile.contacts && profile.contacts[key as keyof ContactsType]}/>*/}
-        {/*})}</div>*/}
+        <div><b>Contacts </b>: {profile.contacts && Object.keys(profile.contacts).map((key) => {
+            return <Contacts key={key} contactTitle={key}
+                             contactValue={profile.contacts && profile.contacts[key as keyof ContactsType]}/>
+        })}</div>
         <div><b>Looking for a job </b>: {profile.lookingForAJob ? 'Yes' : 'No'}</div>
         {profile.lookingForAJob && <div><b>My skills </b>: {profile.lookingForAJobDescription}</div>}
     </div>

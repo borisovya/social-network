@@ -1,8 +1,8 @@
-import {ContactsType, ProfileType, saveProfile} from "../../../Redux/profile-reducer";
+import { ContactsTypeKeys, ProfileType, saveProfile} from "../../../Redux/profile-reducer";
 import React, {useEffect} from "react";
-import {Contacts} from "./Profileinfo";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useAppDispatch} from "../../../Redux/redux-store";
+import s from './Profileinfo.module.css'
 
 type IncomingProfileType = {
     profile: ProfileType
@@ -14,7 +14,15 @@ type FormValuesType = {
     fullName: string,
     aboutMe: string,
     lookingForAJobDescription: string,
-    lookingForAJob: boolean
+    lookingForAJob: boolean,
+    facebook: string | null,
+    website: string | null,
+    vk: string | null,
+    twitter: string | null,
+    instagram: string | null,
+    youtube: string | null,
+    github: string | null,
+    mainLink: string | null
 };
 
 
@@ -30,7 +38,15 @@ export const ProfileDataForm = ({profile, activateEditMode}: IncomingProfileType
             fullName: profile.fullName,
             aboutMe: profile.aboutMe,
             lookingForAJobDescription: profile.lookingForAJobDescription,
-            lookingForAJob: profile.lookingForAJob
+            lookingForAJob: profile.lookingForAJob,
+            facebook: profile.contacts?.facebook,
+            website: profile.contacts?.website,
+            vk: profile.contacts?.vk,
+            twitter: profile.contacts?.twitter,
+            instagram: profile.contacts?.instagram,
+            youtube: profile.contacts?.youtube,
+            github: profile.contacts?.github,
+            mainLink: profile.contacts?.mainLink
         }});
 
     useEffect(()=>{
@@ -48,8 +64,24 @@ export const ProfileDataForm = ({profile, activateEditMode}: IncomingProfileType
         trigger("aboutMe")
     }
 
-    const onSubmit: SubmitHandler<FormValuesType> = (data) => {
-        dispatch(saveProfile(data));
+    const onSubmit: SubmitHandler<FormValuesType> = ({facebook,aboutMe,mainLink, github, vk, lookingForAJobDescription, lookingForAJob, twitter, instagram, youtube, website, fullName}) => {
+        const data:ProfileType = {
+            lookingForAJob,
+            lookingForAJobDescription,
+            fullName,
+            aboutMe,
+            contacts:{
+                github,
+                vk,
+                facebook,
+                instagram,
+                twitter,
+                website,
+                youtube,
+                mainLink
+            }
+        }
+        dispatch(saveProfile(data))
         console.log(data)
         activateEditMode()
         reset()
@@ -111,11 +143,25 @@ export const ProfileDataForm = ({profile, activateEditMode}: IncomingProfileType
         </div>
 
         <div>
-            <label>{'Contacts: '}</label>
-            {profile.contacts && Object.keys(profile.contacts).map((key) => {
-            return <Contacts key={key} contactTitle={key}
-                             contactValue={profile.contacts && profile.contacts[key as keyof ContactsType]}/>
-        })}
+            <div>
+                <label><b>Contacts</b>:</label>
+                {profile.contacts && Object.keys(profile.contacts).map((key) => {
+                    return <div key={key} className={s.contact}>
+                        <b>{key}</b>: {<input  {...register(key as ContactsTypeKeys, {
+                            onBlur: triger,
+                            minLength: {
+                                value: 1,
+                                message: `Field is required`
+                            },
+                            maxLength: {
+                                value: 55,
+                                message: ` Max length is 55 symbols`
+                            }
+                        })}/>}
+                    </div>
+                })}
+            </div>
+
         </div>
         <div>
             <label>
@@ -125,5 +171,6 @@ export const ProfileDataForm = ({profile, activateEditMode}: IncomingProfileType
             <span>{errors?.lookingForAJob && <span>{errors?.lookingForAJob?.message || 'Error'}</span>}</span>
         </div>
         {profile.lookingForAJob && <div><b>My skills </b>: {profile.lookingForAJobDescription}</div>}
+
     </form>
 }

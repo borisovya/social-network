@@ -1,7 +1,9 @@
 import {v1} from "uuid";
 import {ProfileAPI} from "../API/API";
 
-import { Dispatch} from "redux";
+import {Dispatch} from "redux";
+import {AppThunkType, RootStateType} from "./redux-store";
+import axios from "axios";
 
 export type PostsType = {
     id: string
@@ -14,16 +16,16 @@ export type ProfileReducerInitStateType = {
     profile: ProfileType | null,
     status: string
 }
-
+export type ContactsTypeKeys = 'facebook' |
+    'website' |
+    'vk' |
+    'twitter' |
+    'instagram' |
+    'youtube' |
+    'github' |
+    'mainLink'
 export type ContactsType = {
-    facebook: string | null,
-    website: string | null,
-    vk: string | null,
-    twitter: string | null,
-    instagram: string | null,
-    youtube: string | null,
-    github: string | null,
-    mainLink: string | null
+    [key in ContactsTypeKeys]: string | null
 }
 
 export type Nullable<T> = T | null;
@@ -41,9 +43,7 @@ export type ProfileType = {
     fullName?: string
     userId?: number
     photos?: PhotoProfileType
-
 }
-
 
 let initialState = {
     posts: [
@@ -51,7 +51,8 @@ let initialState = {
         {id: v1(), message: 'HAHAHAH!!', likesCount: 42},
     ],
     profile: null,
-    status: ''
+    status: '',
+    editProfileError:''
 }
 
 export const profileReducer = (state: ProfileReducerInitStateType = initialState, action: ActionType): ProfileReducerInitStateType => {
@@ -82,7 +83,6 @@ export const profileReducer = (state: ProfileReducerInitStateType = initialState
             return state
     }
 }
-
 
 type ActionType = AddPostActionType | SetProfileType | SetStatusType | SavePhotoSuccessType
 
@@ -120,12 +120,27 @@ export const savePhoto = (photo: File) => async (dispatch: Dispatch) => {
     }
 }
 
-export const saveProfile = (profile: ProfileType) => async (dispatch: Dispatch) => {
-    const response = await ProfileAPI.saveProfile(profile)
+export const saveProfile = (profile: ProfileType): AppThunkType => async (dispatch, getState: () => RootStateType) => {
+    try {
+        const userId = getState().profilePage.profile?.userId
+        const response = await ProfileAPI.saveProfile(profile)
 
-    if (response.data.resultCode === 0) {
-        dispatch(setProfile(profile))
+        if (response.data.resultCode === 0) {
+            dispatch(setProfile(profile))
+            userId && await dispatch(getProfile(userId))
+        }
+        else if (response.data.resultCode === 1) {
+            if(response.data.messages && response.data.messages?.length)
+            console.log(response.data.messages[0])
+        }
+
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return console.log(error.message)
+        }
+        console.log('Some Error Occured')
     }
+
 }
 
 export const getUserStatus = (userId: number) => async (dispatch: Dispatch) => {
