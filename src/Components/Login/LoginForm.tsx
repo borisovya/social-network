@@ -6,10 +6,12 @@ type FormValuesType = {
     email: string,
     password: string,
     rememberMe: boolean
+    captcha: string | undefined
 };
 
 type LoginFormType = {
     onSubmit: (formData: FormValuesType)=>void
+    captchaUrl: string | undefined
 }
 
 export const LoginForm = (props: LoginFormType) => {
@@ -30,6 +32,7 @@ export const LoginForm = (props: LoginFormType) => {
     const triger2 = () => {
         trigger("email")
     }
+
     return (
         <div>
 
@@ -70,7 +73,18 @@ export const LoginForm = (props: LoginFormType) => {
                 <div>
                     <input type={'checkbox'} {...register("rememberMe")}/> Remember me
                 </div>
-
+                <div>
+                    {props.captchaUrl && <div>
+                        <img src={props.captchaUrl} />
+                        <div>
+                            <div><label>Captcha</label></div>
+                            <input type='captcha' className={errors?.captcha ? s.errorBorder: ''} {...register("captcha", {
+                                required: 'Required',
+                            })}/>
+                            <span className={s.errorText}>{errors?.captcha && <span >{errors?.captcha?.message || 'Error'}</span>}</span>
+                        </div>
+                    </div>}
+                </div>
                 <div>
                     <input type={'submit'} disabled={!isValid}/>
                 </div>

@@ -1,4 +1,4 @@
-import {AuthAPI} from "../API/API";
+import {AuthAPI, securityAPI} from "../API/API";
 import {AppThunkType} from "./redux-store";
 
 export type DataType = {
@@ -16,6 +16,7 @@ type authStateType = {
     isAuth: boolean
     isInitialized: boolean
     responseError: null | string
+    captchaUrl: undefined | string
 }
 
 let initialState: authStateType = {
@@ -30,10 +31,11 @@ let initialState: authStateType = {
     isFetching: false,
     isAuth: false,
     isInitialized: false,
-    responseError: null
+    responseError: null,
+    captchaUrl: undefined
 }
 
-type AuthDataType = setAuthUserDataACType | setInitializedACType | setResponseErrorACType
+type AuthDataType = setAuthUserDataACType | setInitializedACType | setResponseErrorACType | getCaptchaUrlSuccessACType
 
 export const authReducer = (state: authStateType = initialState, action: AuthDataType) => {
 
@@ -44,6 +46,8 @@ export const authReducer = (state: authStateType = initialState, action: AuthDat
             return {...state, isInitialized: action.payload.isInitialized}
         case 'SET-RESPONSE-ERROR':
             return {...state, responseError: action.message}
+        case "GET-CAPTCHA-URL-SUCCESS":
+            return {...state, captchaUrl:action.payload.url}
         default:
             return state
     }
@@ -64,6 +68,11 @@ const setResponseError = (message: string) => {
     return ({type: 'SET-RESPONSE-ERROR', message}) as const
 }
 
+export type getCaptchaUrlSuccessACType = ReturnType<typeof getCaptchaUrlSuccessAC>
+const getCaptchaUrlSuccessAC = (url: string) => {
+    return ({type: 'GET-CAPTCHA-URL-SUCCESS', payload:{url}}) as const
+}
+
 export const getAuthUserData = (): AppThunkType => async dispatch => {
     try {
         const response = await AuthAPI.me()
@@ -77,18 +86,30 @@ export const getAuthUserData = (): AppThunkType => async dispatch => {
     }
 }
 
-export const login = (email: string, password: string, rememberMe: boolean): AppThunkType => async dispatch => {
+export const login = (email: string, password: string, rememberMe: boolean, captcha: string | undefined): AppThunkType => async dispatch => {
     try {
-        const response = await AuthAPI.login(email, password, rememberMe)
+        const response = await AuthAPI.login(email, password, rememberMe, captcha && captcha)
         if (response.data.resultCode === 0) {
             dispatch(getAuthUserData())
         } else if (response.data.resultCode === 1) {
             dispatch(setResponseError(response.data.messages[0]))
             console.log(response.data.messages[0])
         } else {
+            if (response.data.resultCode === 10) {
+                dispatch(getCaptchaUrl())
+            }
             let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
             console.log(message)
         }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getCaptchaUrl = (): AppThunkType => async dispatch => {
+    try {
+        const response = await securityAPI.getCaptchaUrl()
+        dispatch(getCaptchaUrlSuccessAC(response.data.url))
     } catch (error) {
         console.log(error)
     }
