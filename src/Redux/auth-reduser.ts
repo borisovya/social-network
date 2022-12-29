@@ -1,5 +1,6 @@
 import {AuthAPI, securityAPI} from "../API/API";
 import {AppThunkType} from "./redux-store";
+import axios from "axios";
 
 export type DataType = {
     id: number | null
@@ -78,9 +79,12 @@ export const getAuthUserData = (): AppThunkType => async dispatch => {
         const response = await AuthAPI.me()
         if (response.data.resultCode === 0) {
             dispatch(setAuthUserData(response.data.data, true))
+        } else if (response.data.resultCode === 1) {
+            console.log(response.data.messages[0])
         }
     } catch (error) {
-        console.log(error)
+        if(axios.isAxiosError(error))
+        alert(error.message)
     } finally {
         dispatch(setInitialized())
     }

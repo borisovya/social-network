@@ -47,11 +47,12 @@ function App() {
                         <Route exact path='/' component={() => <Redirect to={'/profile'}/>}/>
                         <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
                         <Route path='/dialogs' render={() => <DialogsContainer/>}/>
-                        <Route path='/news' render={() =><WithSuspense comp={<News/>}/>} />
-                        <Route path='/music' render={() =><WithSuspense comp={<Music/>}/>} />
+                        <Route path='/news' render={() => <WithSuspense comp={<News/>}/>}/>
+                        <Route path='/music' render={() => <WithSuspense comp={<Music/>}/>}/>
                         <Route path='/settings' component={SettingsComponent}/>
                         <Route path='/users' component={() => <UsersContainer/>}/>
                         <Route path='/login' component={() => <Login/>}/>
+                        <Route component={() => <div> 404 PAGE NOT FOUND</div>}/>
                     </Switch>
                 </div>
 

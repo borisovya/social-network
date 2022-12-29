@@ -17,9 +17,15 @@ const User = ({user, isFollowingInProgress, unFollowing, following}: propsType) 
             <span>
                 <div>
                     <NavLink to={'/profile/' + user.id}>
-                        <img src={user.photos.small != null ? user.photos.small : userDefaultPhoto} className={s.photo}/>
+                        <img alt={'pic'} src={user.photos.small != null ? user.photos.small : userDefaultPhoto} className={s.photo}/>
                      </NavLink>
                 </div>
+                   <span>
+                    <span>
+                        <div>{user.name}</div>
+                        <div>{user.status}</div>
+                    </span>
+                </span>
                 <div>
                     {user.followed
                         ? <button onClick={() => {
@@ -33,16 +39,7 @@ const User = ({user, isFollowingInProgress, unFollowing, following}: propsType) 
                                   disabled={isFollowingInProgress.some(id => id === user.id)}>Follow</button>}
                 </div>
             </span>
-            <span>
-                    <span>
-                        <div>{user.name}</div>
-                        <div>{user.status}</div>
-                    </span>
-                    <span>
-                        <div>{"user.location.country"}</div>
-                        <div>{"user.location.city"}</div>
-                    </span>
-                </span>
+
         </div>
 }
 

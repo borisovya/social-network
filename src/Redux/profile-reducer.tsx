@@ -47,8 +47,8 @@ export type ProfileType = {
 
 let initialState = {
     posts: [
-        {id: v1(), message: 'Hi how are you?', likesCount: 23},
-        {id: v1(), message: 'HAHAHAH!!', likesCount: 42},
+        // {id: v1(), message: 'Hi how are you?', likesCount: 23},
+        // {id: v1(), message: 'HAHAHAH!!', likesCount: 42},
     ],
     profile: null,
     status: '',
@@ -156,6 +156,8 @@ export const updateUserStatus = (status: string) => async (dispatch: Dispatch) =
     const response = await ProfileAPI.updateStatus(status)
     if (response.data.resultCode === 0) {
         dispatch(setStatus(status))
+    } else if (response.data.resultCode === 1) {
+        alert(response.data.messages[0])
     }
 }
 
